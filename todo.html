@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My tasks · Make-It-All Hub</title>
+</head>
+<body>
+  <div>
+    <nav aria-label="Main">
+      <div>Make-It-All <span>Hub</span></div>
+      <a href="todo.html" aria-current="page">My tasks</a>
+      <a href="knowledge.html">Knowledge base</a>
+
+      <div>
+        <strong>Sam Patel</strong>
+        <small>Support · Office IT</small>
+        <span>Employee account</span>
+        <a href="login.html">Log out</a>
+      </div>
+    </nav>
+
+    <main>
+      <div>
+        <header>
+          <div>
+            <small id="today"></small>
+            <h1>My tasks</h1>
+          </div>
+          <div>
+            <div><strong id="count-open">0</strong>open</div>
+            <div><strong id="count-overdue">0</strong>overdue</div>
+            <div><strong id="count-done">0</strong>done</div>
+          </div>
+        </header>
+
+        <form id="add-form">
+          <label for="new-title">New task</label>
+          <input id="new-title" type="text" placeholder="Add a task, e.g. Book room for sprint review" required>
+
+          <label for="new-project">Project</label>
+          <select id="new-project">
+            <option>Personal</option>
+            <option>Office IT refresh</option>
+            <option>Client portal v2</option>
+            <option>HR onboarding</option>
+          </select>
+
+          <label for="new-priority">Priority</label>
+          <select id="new-priority">
+            <option>Medium</option>
+            <option>High</option>
+            <option>Low</option>
+          </select>
+
+          <label for="new-due">Due date</label>
+          <input id="new-due" type="date" required>
+
+          <button type="submit">Add task</button>
+        </form>
+
+        <div>
+          <div role="group" aria-label="Filter tasks" id="filters">
+            <button type="button" data-filter="All">All</button>
+            <button type="button" data-filter="To do">To do</button>
+            <button type="button" data-filter="In progress">In progress</button>
+            <button type="button" data-filter="Done">Done</button>
+          </div>
+          <label>
+            Sort by
+            <select id="sort">
+              <option value="due">Due date</option>
+              <option value="priority">Priority</option>
+              <option value="project">Project</option>
+            </select>
+          </label>
+        </div>
+
+        <ul id="task-list"></ul>
+        <p id="empty-msg">No tasks here yet.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/todo.js"></script>
+</body>
+</html>
