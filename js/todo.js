@@ -9,6 +9,7 @@ let tasks = [
   { id: 6, title: 'Schedule team meeting',                    project: 'Team coordination', priority: 'Medium', status: 'Done',       due: '2026-10-25' }
 ];
 
+
 // Find the empty <ul> on the page, using its id
 const list = document.getElementById('task-list');
 
