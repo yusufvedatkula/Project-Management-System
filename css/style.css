@@ -1,0 +1,59 @@
+
+:root {
+  --ink: #1F2328;      /* dark charcoal: text and sidebar */
+  --ground: #F6F5F2;   /* off-white page background */
+  --amber: #F2B33D;    /* accent colour */
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: sans-serif;
+}
+
+/* Page layout: menu + content side by side  */
+.app {
+  display: flex;        /* put the children in a row */
+  flex-wrap: wrap;      /* allow them to wrap onto a new line if there's no room */
+  min-height: 100vh;    /* at least the full height of the screen */
+}
+
+.sidebar {
+  flex: 1 1 220px;
+  background: var(--ink);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;   /* stack the menu items top to bottom */
+  gap: 4px;
+}
+
+.content {
+  flex: 999 1 560px;
+  padding: 40px 32px;
+}
+
+.logo {
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+  padding-bottom: 24px;
+}
+
+.sidebar a {
+  color: #D6D3CC;
+  text-decoration: none;   /* remove the underline */
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.sidebar a:hover {
+  background: #3A4048;
+  color: white;
+}
+
+.sidebar a.active:hover {
+  background: #3A4048;
+  color: white;
+  font-weight: 600;
+}
