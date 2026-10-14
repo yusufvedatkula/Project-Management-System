@@ -24,7 +24,21 @@
         <div class="counter overdue"><strong id="count-overdue">0</strong>overdue</div>
         <div class="counter done"><strong id="count-done">0</strong>done</div>
         <div class="counter high-priority"><strong id="count-high-priority">0</strong>high priority</div>
+        </div>
     </header>
+
+    <div class="adding_task">
+      <input type="text" id="newTask_input" placeholder="Add a new task">
+      <button id="adding_task_btn">Add task</button>
+    </div>
+
+    <div class="filters">
+      <button class="filter_btn ready" data-filter="All">All</button>
+      <button class="filter_btn" data-filter="To do">To do</button>
+      <button class="filter_btn" data-filter="In progress">In progress</button>
+      <button class="filter_btn" data-filter="Done">Done</button>
+    </div>
+
       <!-- ul is empty because tasks are dynamically added via JavaScript -->
       <ul id="task-list"></ul>
     </main>
