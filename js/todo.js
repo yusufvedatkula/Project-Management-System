@@ -9,15 +9,24 @@ let tasks = [
   { id: 6, title: 'Schedule team meeting',                    project: 'Team coordination', priority: 'Medium', status: 'Done',       due: '2026-10-25' }
 ];
 
+// page loads every task
+let currentFilter = 'All';
 
 // Find the empty <ul> on the page, using its id
 const list = document.getElementById('task-list');
+const newTaskInput = document.getElementById('newTask_input');
+const addTaskBtn = document.getElementById('adding_task_btn');
 
 // Wipe the list, then rebuild it from the tasks array
 function render() {
   list.innerHTML = '';   // wipe the whiteboard
 
-  tasks.forEach(task => {
+  let visibleTasks = tasks;
+    if (currentFilter !== 'All') {
+      visibleTasks = tasks.filter(t => t.status === currentFilter); // keeps each task whose status text matches the selected filter exactly
+    }
+
+  visibleTasks.forEach(task => {
     const li = document.createElement('li');   // make a new <li>
     
     li.className = task.status === 'Done' ? 'is-done' : '';
@@ -25,9 +34,11 @@ function render() {
       <input type="checkbox" class="task-check" ${task.status === 'Done' ? 'checked' : ''}>
       <strong>${task.title}</strong>
       <span>${task.project} · ${task.priority} · due ${task.due}</span>
-      <span class="status ${task.status.toLowerCase().replace(' ', '-')}">${task.status}</span>`;
+      <span class="status ${task.status.toLowerCase().replace(' ', '-')}">${task.status}</span>
+      <button class="delete_btn">Delete</button>`;
 
     li.querySelector('.task-check').addEventListener('change', () => toggleDone(task.id));
+    li.querySelector('.delete_btn').addEventListener('click', () => deleteTask(task.id));
     list.appendChild(li);   // put it on the page
   });
   updateCounters();
@@ -58,6 +69,7 @@ function updateCounters() {
   document.getElementById('count-high-priority').textContent = highPriority;
 }
 
+
 // Flip a task between Done and To do, then redraw the page
 function toggleDone(id) {
   const task = tasks.find(t => t.id === id);   // find the task that was clicked
@@ -70,6 +82,40 @@ function toggleDone(id) {
 
   render();   // redraw so the list and counters update
 }
+
+// removing a task by its id, then redraw the page
+function deleteTask(id) {
+  tasks = tasks.filter(t => t.id !== id);
+  render();   // redraw so the list and counters update
+}
+
+// read the input box, build a new task, add it to the array, then redraw
+function addTask() {
+  const title = newTaskInput.value;
+  if (title === '') return; // nothing typed, so do nothing
+
+  tasks.push({
+    id: Date.now(),
+    title: title,
+    project: 'Personal',
+    priority: 'Medium',
+    status: 'To do',
+    due: todayString()
+  });
+
+  newTaskInput.value = '';  // box should be cleared
+  render();
+}
+// add task button
+addTaskBtn.addEventListener('click', addTask);
+
+// filter buttons
+document.querySelectorAll('.filter_btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentFilter = btn.dataset.filter;  // remember which filter was clicked
+    render();  // redraw with that filter
+  });
+});
 
 // Draw the list once when the page first loads
 render();
