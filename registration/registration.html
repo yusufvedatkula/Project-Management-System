@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <title>Registration System</title>
+
+    <link rel="stylesheet" href="registrationstyle.css">
+</head>
+<body>
+
+    <div class="card">
+        <h2>Register</h2>
+
+        <form id="regForm">
+            <div class="input-group">
+                <label for="username">Username (Staff Email)</label>
+                <input type="text" id="username" placeholder="name@make-it-all.co.uk" required>
+                <span id="usernameError" class="error"></span>
+                </div>
+
+             <div class="input-group">
+                <label for="password">Password</label>
+                <div class="password-wrapper">
+                <input type="password" id="password" placeholder="Enter Password" required>
+                <button type="button" id="togglePasswordButton">Show</button>
+                </div>
+                 <span id="passwordError" class="error"></span>
+                </div>
+
+                <div class="input-group">
+                <label for="confirmPassword">Re-Enter Password</label>
+                <div class="password-wrapper">
+                <input type="password" id="confirmPassword" placeholder="Enter Password" required>
+                 <button type="button" id="toggleConfirmButton">Show</button>
+                  </div>
+                 <span id="confirmError" class="error"></span>
+                </div>
+
+            <button type="submit">Submit</button>
+
+        </form>
+
+        <p id="resultMessage"></p>
+    </div>
+
+    <script src="RegistrationSystem.js"></script>
+</body>
+</html>
