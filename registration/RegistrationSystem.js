@@ -5,6 +5,7 @@ const confirmPasswordInput = document.getElementById('confirmPassword')
 
 const usernameError = document.getElementById('usernameError');
 const passwordError = document.getElementById('passwordError');
+const confirmError = document.getElementById('confirmError')
 const resultMessage = document.getElementById('resultMessage');
 
 const togglePasswordButton = document.getElementById('togglePasswordButton');
@@ -30,7 +31,7 @@ form.addEventListener('submit', function (event) {
 
     usernameError.textContent = '';
     passwordError.textContent = '';
-    confirmError
+    confirmError.textContent = '';
     resultMessage.textContent = '';
 
     const username = usernameInput.value;
