@@ -1,0 +1,231 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Instrument+Sans:wght@400..700&display=swap');
+
+:root {
+  --ink: #202428;
+  --paper: #f7f5f1;
+  --white: #ffffff;
+  --amber: #e8b04a;
+  --muted: #5d6166;
+  --line: #cfcdc7;
+  --link: #3556c9;
+  --error-bg: #f8e0de;
+  --error-text: #8a1f1a;
+  --error-line: #d6443b;
+  --demo-row: #f0eee9;
+  --demo-row-warm: #fdf3dc;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  font-family: 'Instrument Sans', 'Segoe UI', sans-serif;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  background-color: var(--paper);
+}
+
+/* ---- Left brand panel ---- */
+.brand-panel {
+  background-color: var(--ink);
+  color: var(--white);
+  padding: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+.brand {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.brand span { color: var(--amber); }
+
+.brand-copy h2 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  line-height: 1.12;
+  margin-bottom: 20px;
+}
+
+.brand-copy p {
+  color: #d6d8da;
+  line-height: 1.7;
+}
+
+.brand-foot {
+  font-size: .85rem;
+  color: #b4b7ba;
+}
+
+/* ---- Right content ---- */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.wrapper > * { width: min(400px, 100%); }
+
+h1 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin: 10px 0 26px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+form label {
+  font-size: .9rem;
+  font-weight: 600;
+}
+
+form input {
+  height: 48px;
+  padding: 0 14px;
+  font: inherit;
+  color: var(--ink);
+  background-color: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  transition: 150ms ease;
+}
+
+form input::placeholder { color: #7d8085; }
+
+form input:hover { border-color: #9a9892; }
+
+form input:focus {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(32, 36, 40, .15);
+}
+
+/* Set by validation.js on the field's wrapper div */
+form div.incorrect input {
+  border-color: var(--error-line);
+}
+
+form div.incorrect label {
+  color: var(--error-text);
+}
+
+/* Error box (filled by validation.js, hidden when empty) */
+#error-message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 8px;
+  background-color: var(--error-bg);
+  color: var(--error-text);
+  font-size: .9rem;
+  text-align: left;
+}
+
+#error-message:empty { display: none; }
+
+#error-message::before {
+  content: '!';
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  font-size: .7rem;
+  font-weight: 700;
+  line-height: 13px;
+  text-align: center;
+}
+
+/* Buttons */
+form button,
+.logout-btn {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--ink);
+  color: var(--white);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 150ms ease;
+}
+
+form button:hover,
+.logout-btn:hover { background-color: #3a4046; }
+
+form button:focus-visible,
+.logout-btn:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 2px;
+}
+
+/* Demo account box */
+.demo-box {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background-color: var(--white);
+}
+
+.demo-title {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.demo-row {
+  padding: 12px 14px;
+  border-radius: 6px;
+  background-color: var(--demo-row-warm);
+  font-size: .85rem;
+}
+
+.switch {
+  margin-top: 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+a { color: var(--link); }
+a:hover { text-decoration: none; }
+
+.welcome-name { margin-bottom: 26px; }
+
+/* ---- Small screens ---- */
+@media (max-width: 800px) {
+  body { grid-template-columns: 1fr; }
+  .brand-panel { min-height: 0; padding: 20px 24px; }
+  .brand-copy, .brand-foot { display: none; }
+  .wrapper { padding: 32px 20px; }
+}

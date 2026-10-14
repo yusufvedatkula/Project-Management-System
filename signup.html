@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="text/javascript" src="validation.js" defer></script>
+</head>
+<body>
+  <aside class="brand-panel">
+    <p class="brand">Make-It-All <span>Hub</span></p>
+    <div class="brand-copy">
+      <h2>Your tasks and the team’s know-how, in one place.</h2>
+      <p>Track your to-do list, see how projects are going, and find answers in the company knowledge base.</p>
+    </div>
+    <p class="brand-foot">For Make-It-All staff only.</p>
+  </aside>
+  <main class="wrapper">
+    <h1>Create an account</h1>
+    <p class="subtitle">Sign up with your email address.</p>
+    <form id="form">
+      <div>
+        <label for="firstname-input">First name</label>
+        <input type="text" name="firstname" id="firstname-input" placeholder="Your first name">
+      </div>
+      <div>
+        <label for="email-input">Email</label>
+        <input type="email" name="email" id="email-input" placeholder="name@example.com">
+      </div>
+      <div>
+        <label for="password-input">Password</label>
+        <input type="password" name="password" id="password-input" placeholder="At least 8 characters">
+      </div>
+      <div>
+        <label for="repeat-password-input">Repeat password</label>
+        <input type="password" name="repeat-password" id="repeat-password-input" placeholder="Repeat your password">
+      </div>
+      <p id="error-message"></p>
+      <button type="submit">Create account</button>
+    </form>
+    <p class="switch">Already have an account? <a href="login.html">Log in</a></p>
+  </main>
+</body>
+</html>
