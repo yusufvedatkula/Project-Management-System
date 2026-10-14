@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make-It-All Hub - Dashboard</title>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+
+    <!-- Dark Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">Make-It-All <span>Hub</span></div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active">Tasks</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-name">Miran Vadgama</div>
+            <div class="user-role">Technician</div>
+            <span class="badge-account">Employee account</span>
+            <a href="#" class="logout-link">Log out</a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <header class="content-header">
+            <div>
+                <h1>Make-It-All Dashboard</h1>
+                <div class="date-sub">Productivity Management System</div>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- Project Tasks Section -->
+            <div class="card">
+                <h2>Team/Project Tasks</h2>
+                <div class="form-group">
+                    <label for="taskInput">New Task Description:</label>
+                    <input type="text" id="taskInput" placeholder="Enter task details...">
+                </div>
+                <div class="form-group">
+                    <label for="ownerInput">Assign To Team Member:</label>
+                    <input type="text" id="ownerInput" placeholder="Enter team member name...">
+                </div>
+                <button class="primary" id="addTaskButton">Add Task</button>
+
+                <h3>Current Tasks</h3>
+                <ul id="taskList">
+                    <!-- Dynamically populated by JS -->
+                </ul>
+            </div>
+
+            <!-- Workload Summary Section -->
+            <div class="card">
+                <h2>Workload Summary</h2>
+                <p>Active tasks currently assigned to team members:</p>
+                <ul id="workList">
+                    <!-- Dynamically populated by JS -->
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script src="main.js"></script>
+</body>
+</html>
