@@ -229,3 +229,10 @@ a:hover { text-decoration: none; }
   .brand-copy, .brand-foot { display: none; }
   .wrapper { padding: 32px 20px; }
 }
+
+/* Links to the main pages on the home page */
+.home-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
