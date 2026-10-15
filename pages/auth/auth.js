@@ -26,7 +26,7 @@ function saveUser(user){
 
 function startSession(user){
   localStorage.setItem(SESSION_KEY, JSON.stringify({ firstname: user.firstname, email: user.email }))
-  window.location.href = 'home.html'
+  window.location.href = '../home/home.html'
 }
 
 // ---- Form handling ----

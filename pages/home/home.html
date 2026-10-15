@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Home · Make-It-All Hub</title>
+  <link rel="stylesheet" href="../auth/auth.css">
 </head>
 <body>
   <aside class="brand-panel">
@@ -18,19 +18,25 @@
   <main class="wrapper">
     <h1>Welcome</h1>
     <p class="subtitle welcome-name" id="welcome-name"></p>
+    <nav class="home-links">
+      <a href="../my-tasks/my-tasks.html">My tasks</a>
+      <a href="../team-tasks/team-tasks.html">Team tasks</a>
+      <a href="../knowledge-base/knowledge-base.html">Knowledge Base</a>
+      <a href="../managers-dashboard/managers-dashboard.html">Manager's dashboard</a>
+    </nav>
     <button class="logout-btn" id="logout-btn" type="button">Log out</button>
   </main>
   <script>
     // Only logged-in users can see this page
     const session = JSON.parse(localStorage.getItem('demoSession') || 'null')
     if(!session){
-      window.location.replace('login.html')
+      window.location.replace('../auth/login.html')
     } else {
       document.getElementById('welcome-name').innerText = `You're logged in as ${session.firstname} (${session.email}).`
     }
     document.getElementById('logout-btn').addEventListener('click', () => {
       localStorage.removeItem('demoSession')
-      window.location.href = 'login.html'
+      window.location.href = '../auth/login.html'
     })
   </script>
 </body>
