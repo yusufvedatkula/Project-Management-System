@@ -106,3 +106,79 @@ body {
   text-decoration: line-through;
   color: #8A8F96;
 }
+
+/* ===== Added by me ===== */
+
+/* checkbox: pin it to the left, like the status pill and delete button */
+.task-check {
+  align-self: flex-start;
+  margin: 0 0 8px 0;
+}
+
+/* delete button */
+.delete_btn {
+  align-self: flex-start;   /* stay small instead of stretching across the row */
+  margin-top: 8px;
+  padding: 4px 12px;
+  color: #B42318;
+  background: white;
+  border: 1px solid #B42318;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.delete_btn:hover {
+  background: #B42318;
+  color: white;
+}
+
+/* add task box */
+.adding_task {
+  display: flex;
+  flex-wrap: wrap;   /* button drops below the input on a narrow screen */
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.adding_task input {
+  flex: 1 1 240px;   /* grow to fill the row, never shrink below 240px */
+  padding: 10px 14px;
+  border: 1px solid #D6D3CC;
+  border-radius: 8px;
+}
+
+.adding_task button {
+  padding: 10px 18px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--amber);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* filter buttons */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.filter_btn {
+  padding: 6px 16px;
+  color: #3F444A;
+  background: #ECEAE5;
+  border: none;
+  border-radius: 16px;   /* pill shape, like the status labels */
+  cursor: pointer;
+}
+
+.filter_btn:hover {
+  background: #DDDAD3;
+}
+
+.filter_btn.ready {
+  background: var(--ink);
+  color: white;
+}
