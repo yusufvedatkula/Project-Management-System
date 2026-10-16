@@ -16,6 +16,13 @@
       <a href="../my-tasks/my-tasks.html">My tasks</a>
       <a href="../team-tasks/team-tasks.html">Team tasks</a>
       <a class="active" href="../knowledge-base/knowledge-base.html">Knowledge Base</a>
+
+      <!-- Logged-in user, filled in by shared/session.js -->
+      <div class="sidebar-user">
+        <span class="sidebar-user-name" id="sidebar-user-name"></span>
+        <span class="sidebar-user-email" id="sidebar-user-email"></span>
+        <button type="button" class="sidebar-logout" id="logout-btn">Log out</button>
+      </div>
     </nav>
 
     <main class="content">
@@ -25,5 +32,6 @@
 
   </div>
 
+  <script src="../shared/session.js"></script>
 </body>
 </html>

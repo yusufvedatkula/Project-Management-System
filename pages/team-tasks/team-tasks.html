@@ -10,18 +10,18 @@
 
     <!-- Dark Sidebar -->
     <aside class="sidebar">
-        <div class="sidebar-brand">Make-It-All <span>Hub</span></div>
+        <div class="sidebar-brand">Make-It-All Hub</div>
         <nav class="sidebar-nav">
             <a href="../home/home.html" class="nav-item">Home</a>
             <a href="../my-tasks/my-tasks.html" class="nav-item">My tasks</a>
             <a href="../team-tasks/team-tasks.html" class="nav-item active">Team tasks</a>
             <a href="../knowledge-base/knowledge-base.html" class="nav-item">Knowledge Base</a>
         </nav>
-        <div class="sidebar-footer">
-            <div class="user-name">Miran Vadgama</div>
-            <div class="user-role">Technician</div>
-            <span class="badge-account">Employee account</span>
-            <a href="../auth/login.html" class="logout-link" onclick="localStorage.removeItem('demoSession')">Log out</a>
+        <!-- Logged-in user, filled in by shared/session.js -->
+        <div class="sidebar-user">
+            <span class="sidebar-user-name" id="sidebar-user-name"></span>
+            <span class="sidebar-user-email" id="sidebar-user-email"></span>
+            <button type="button" class="sidebar-logout" id="logout-btn">Log out</button>
         </div>
     </aside>
 
@@ -65,6 +65,7 @@
         </div>
     </main>
 
+    <script src="../shared/session.js"></script>
     <script src="team-tasks.js"></script>
 </body>
 </html>

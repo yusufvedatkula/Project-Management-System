@@ -8,84 +8,88 @@ body {
     box-sizing: border-box;
 }
 
-/* Dark Sidebar Styling */
+/* Dark Sidebar Styling: same colours and sizes as the My tasks sidebar */
 .sidebar {
-    width: 260px;
-    background-color: #1a202c;
-    color: #a0aec0;
+    width: 220px;
+    flex-shrink: 0;                /* never squash the sidebar */
+    box-sizing: border-box;
+    background-color: #1F2328;
+    font-family: sans-serif;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     padding: 24px 16px;
     height: 100vh;
-    position: sticky;
+    position: sticky;              /* stays in place while the tasks scroll */
     top: 0;
 }
 
 .sidebar-brand {
     font-size: 20px;
-    font-weight: bold;
+    font-weight: 700;
     color: #ffffff;
-    margin-bottom: 30px;
-}
-
-.sidebar-brand span {
-    color: #f6ad55;
+    padding-bottom: 24px;
 }
 
 .sidebar-nav {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    flex-grow: 1;
+    gap: 4px;
 }
 
 .nav-item {
-    color: #a0aec0;
+    color: #D6D3CC;
     text-decoration: none;
-    padding: 10px 12px;
-    border-radius: 6px;
-    font-size: 15px;
+    padding: 12px;
+    border-radius: 8px;
 }
 
-.nav-item.active, .nav-item:hover {
-    background-color: #2d3748;
+.nav-item:hover {
+    background-color: #3A4048;
     color: #ffffff;
 }
 
-.sidebar-footer {
-    border-top: 1px solid #2d3748;
-    padding-top: 16px;
+.nav-item.active {
+    background-color: #3A4048;
+    color: #ffffff;
+    font-weight: 600;
 }
 
-.user-name {
+/* Logged-in user at the bottom of the sidebar */
+.sidebar-user {
+    margin-top: auto;              /* pushes this block to the bottom of the sidebar */
+    padding: 16px 12px 0;
+    border-top: 1px solid #3A4048;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar-user-name {
     color: #ffffff;
-    font-weight: bold;
+    font-weight: 600;
     font-size: 14px;
 }
 
-.user-role {
-    font-size: 12px;
-    color: #718096;
-    margin-bottom: 8px;
-}
-
-.badge-account {
-    display: inline-block;
-    background-color: #2d3748;
-    color: #cbd5e0;
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 12px;
-    margin-bottom: 12px;
-}
-
-.logout-link {
-    display: block;
-    color: #f6ad55;
-    text-decoration: none;
+.sidebar-user-email {
+    color: #B5B1A9;
     font-size: 13px;
+    overflow-wrap: anywhere;       /* long emails wrap instead of overflowing */
 }
+
+/* a button styled to look like a link */
+.sidebar-logout {
+    align-self: flex-start;
+    margin-top: 8px;
+    padding: 0;
+    background: none;
+    border: 0;
+    color: #F2B33D;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.sidebar-logout:hover { text-decoration: underline; }
 
 /* Main Content Area */
 .main-content {
@@ -240,4 +244,22 @@ ul li {
 .task-actions button:hover {
     background: #edf2f7;
     border-color: #a0aec0;
+}
+
+/* Phones and small screens: the sidebar becomes a bar across the top */
+@media (max-width: 860px) {
+    body {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+    }
+
+    .main-content {
+        padding: 24px 16px;
+    }
 }

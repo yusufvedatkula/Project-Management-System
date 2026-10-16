@@ -19,7 +19,11 @@ body {
 }
 
 .sidebar {
-  flex: 1 1 220px;
+  flex: 0 0 220px;          /* fixed 220px wide, same as the Team tasks sidebar */
+  box-sizing: border-box;
+  position: sticky;         /* stays in place while the task list scrolls */
+  top: 0;
+  height: 100vh;            /* full screen height, so the user details sit in the bottom-left corner */
   background: var(--ink);
   padding: 24px 16px;
   display: flex;
@@ -29,6 +33,7 @@ body {
 
 .content {
   flex: 999 1 560px;
+  min-width: 0;             /* lets long content shrink instead of overflowing */
   padding: 40px 32px;
 }
 
@@ -196,4 +201,49 @@ body {
   height: 1px;
   overflow: hidden;
   clip: rect(0 0 0 0);
+}
+/* Logged-in user at the bottom of the sidebar */
+.sidebar-user {
+  margin-top: auto;              /* pushes this block to the bottom of the sidebar */
+  padding: 16px 12px 0;
+  border-top: 1px solid #3A4048;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-user-name {
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.sidebar-user-email {
+  color: #B5B1A9;
+  font-size: 13px;
+  overflow-wrap: anywhere;       /* long emails wrap instead of overflowing */
+}
+
+/* a button styled to look like a link */
+.sidebar-logout {
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--amber);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.sidebar-logout:hover { text-decoration: underline; }
+
+/* Phones and small screens: the sidebar becomes a bar across the top */
+@media (max-width: 860px) {
+  .sidebar {
+    flex-basis: 100%;
+    height: auto;
+    position: static;
+  }
 }
