@@ -113,6 +113,8 @@ addTaskBtn.addEventListener('click', addTask);
 document.querySelectorAll('.filter_btn').forEach(btn => {
   btn.addEventListener('click', () => {
     currentFilter = btn.dataset.filter;  // remember which filter was clicked
+    document.querySelectorAll('.filter_btn').forEach(b => b.classList.remove('ready'));
+    btn.classList.add('ready');
     render();  // redraw with that filter
   });
 });
