@@ -236,3 +236,36 @@ a:hover { text-decoration: none; }
   flex-direction: column;
   gap: 10px;
 }
+
+/* Each home link is a large clickable card, so the page works as a menu */
+.home-links a {
+  display: block;               /* make the whole box clickable, not just the text */
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background-color: var(--white);
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  transition: 150ms ease;
+}
+
+.home-links a:hover {
+  border-color: var(--ink);
+  background-color: var(--demo-row);
+}
+
+/* keyboard users can see which link is selected */
+.home-links a:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 2px;
+}
+
+/* Log out button on the home page.
+   "width: 100%" in the shared button rule above made it stretch across the
+   whole right side, because it overrode the 400px column width.
+   This puts it back in line with the links above it. */
+.wrapper > .logout-btn {
+  width: min(400px, 100%);
+  margin-top: 24px;
+}
