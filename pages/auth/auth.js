@@ -13,7 +13,7 @@ function getUsers(){
   const users = JSON.parse(localStorage.getItem(USERS_KEY) || 'null')
   if(users) return users
   // First visit: create the demo account
-  const seeded = [{ firstname: 'Demo', email: 'demo@example.com', password: 'password123' }]
+  const seeded = [{ firstname: 'Demo', email: 'demo@make-it-all.com', password: 'password123' }]
   localStorage.setItem(USERS_KEY, JSON.stringify(seeded))
   return seeded
 }
@@ -81,12 +81,24 @@ function getSignupFormErrors(firstname, email, password, repeatPassword){
     errors.push('Email is required')
     email_input.parentElement.classList.add('incorrect')
   }
+  else if (!email_input.value.endsWith('@make-it-all.co.uk')) {
+    errors.push('Email must be a @make-it-all.co.uk address')
+    email_input.parentElement.classList.add('incorrect')
+  }
   if(password === '' || password == null){
     errors.push('Password is required')
     password_input.parentElement.classList.add('incorrect')
   }
   else if(password.length < 8){
     errors.push('Password must have at least 8 characters')
+    password_input.parentElement.classList.add('incorrect')
+  }
+  else if(!/\d/.test(password)) {
+    errors.push('Password must contain at least one number and one symbol')
+    password_input.parentElement.classList.add('incorrect')
+  }
+  else if(!/[^\w\s]/.test(password)) {
+    errors.push('Password must contain at least one number and one symbol')
     password_input.parentElement.classList.add('incorrect')
   }
   if(password !== repeatPassword){
