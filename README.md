@@ -6,7 +6,7 @@ A team project: a simple project management system for Make-It-All staff, built 
 
 Open `index.html` in a browser (or use the VS Code **Live Server** extension). It takes you to the login page.
 
-Demo account: `demo@example.com` / `password123`
+Demo account: `demo@make-it-all.co.uk` / `password123`
 
 ## Folder structure
 
