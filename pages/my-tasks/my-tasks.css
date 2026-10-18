@@ -153,6 +153,11 @@ body {
 }
 
 /* FIXED: only the title box grows; before, the date box stretched too */
+.adding_task select {
+  background: white;
+  cursor: pointer;
+}
+
 .adding_task input[type="text"] {
   flex: 1 1 240px;   /* grow to fill the row, never shrink below 240px */
 }
@@ -188,8 +193,8 @@ body {
   background: #DDDAD3;
 }
 
-/* FIXED: was ".ready", but the JavaScript adds the class "active" */
-.filter_btn.active {
+/* the selected filter: my-tasks.js adds the class "ready" to the clicked button */
+.filter_btn.ready {
   background: var(--ink);
   color: white;
 }
