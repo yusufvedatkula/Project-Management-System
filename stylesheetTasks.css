@@ -221,6 +221,11 @@ ul li {
     color: #a0aec0;
 }
 
+.overdue {
+    color: #c0392b;
+    font-weight: 600;
+}
+
 .task-actions {
     display: flex;
     gap: 8px;
