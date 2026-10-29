@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manager's dashboard · Make-It-All Hub</title>
+  <link rel="stylesheet" href="managers-dashboard.css">
+</head>
+<body>
+  <div class="app">
+    <nav class="sidebar" aria-label="Main navigation">
+      <div class="logo">Make-It-All Hub</div>
+      <a href="../home/home.html">Home</a>
+      <a href="../my-tasks/my-tasks.html">My tasks</a>
+      <a href="../team-tasks/team-tasks.html">Team tasks</a>
+      <a href="../knowledge-base/knowledge-base.html">Knowledge Base</a>
+      <a class="active" href="managers-dashboard.html" aria-current="page">
+        Manager's dashboard
+      </a>
+
+      <div class="sidebar-user">
+        <span class="sidebar-user-name" id="sidebar-user-name"></span>
+        <span class="sidebar-user-email" id="sidebar-user-email"></span>
+        <button class="sidebar-logout" id="logout-btn" type="button">Log out</button>
+      </div>
+    </nav>
+
+    <main class="content">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">TEAM OVERVIEW</p>
+          <h1>Manager's dashboard</h1>
+          <p class="intro">See project progress and how work is shared across your team.</p>
+        </div>
+
+        <div class="manager-picker">
+          <label for="manager-select">Viewing team for</label>
+          <select id="manager-select"></select>
+        </div>
+      </header>
+
+      <section class="summary" aria-label="Team summary">
+        <article class="summary-card">
+          <span class="summary-label">Team members</span>
+          <strong id="member-count">0</strong>
+        </article>
+        <article class="summary-card">
+          <span class="summary-label">Active tasks</span>
+          <strong id="active-task-count">0</strong>
+        </article>
+        <article class="summary-card">
+          <span class="summary-label">Completed tasks</span>
+          <strong id="completed-task-count">0</strong>
+        </article>
+        <article class="summary-card">
+          <span class="summary-label">Projects</span>
+          <strong id="project-count">0</strong>
+        </article>
+      </section>
+
+      <section class="section" aria-labelledby="projects-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">DELIVERY</p>
+            <h2 id="projects-heading">Project progress</h2>
+          </div>
+        </div>
+        <div class="project-list" id="project-list"></div>
+      </section>
+
+      <section class="section" aria-labelledby="team-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">PEOPLE</p>
+            <h2 id="team-heading">Team workload</h2>
+          </div>
+          <p class="section-note">Active task counts exclude completed tasks.</p>
+        </div>
+        <div class="employee-grid" id="employee-grid"></div>
+      </section>
+
+      <p class="prototype-note">
+        Prototype view — the employees, managers and tasks shown here are sample data.
+      </p>
+    </main>
+  </div>
+
+  <script src="../shared/session.js"></script>
+  <script src="managers-dashboard.js"></script>
+</body>
+</html>

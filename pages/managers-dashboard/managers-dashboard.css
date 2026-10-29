@@ -1,0 +1,379 @@
+:root {
+    --ink: #1f2328;
+    --muted: #687078;
+    --ground: #f6f5f2;
+    --amber: #f2b33d;
+    --line: #e5e2dc;
+    --white: #ffffff;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  
+  .app {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  /* Navigation */
+  .sidebar {
+    flex: 0 0 220px;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    height: 100vh;
+    padding: 24px 16px;
+    background: var(--ink);
+  }
+  
+  .logo {
+    padding: 0 8px 24px;
+    color: var(--white);
+    font-size: 20px;
+    font-weight: 700;
+  }
+  
+  .sidebar a {
+    padding: 12px;
+    border-radius: 8px;
+    color: #d6d3cc;
+    text-decoration: none;
+  }
+  
+  .sidebar a:hover,
+  .sidebar a.active {
+    background: #3a4048;
+    color: var(--white);
+  }
+  
+  .sidebar a.active {
+    font-weight: 600;
+  }
+  
+  .sidebar-user {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: auto;
+    padding: 16px 12px 0;
+    border-top: 1px solid #3a4048;
+  }
+  
+  .sidebar-user-name {
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .sidebar-user-email {
+    overflow-wrap: anywhere;
+    color: #b5b1a9;
+    font-size: 13px;
+  }
+  
+  .sidebar-logout {
+    align-self: flex-start;
+    margin-top: 8px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--amber);
+    font: inherit;
+    cursor: pointer;
+  }
+  
+  .sidebar-logout:hover {
+    text-decoration: underline;
+  }
+  
+  /* Main page */
+  .content {
+    flex: 1;
+    min-width: 0;
+    padding: 40px;
+  }
+  
+  .page-header,
+  .section-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .page-header {
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+  
+  .eyebrow {
+    margin: 0 0 8px;
+    color: #817b70;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+  
+  h1,
+  h2,
+  h3,
+  p {
+    margin-top: 0;
+  }
+  
+  h1 {
+    margin-bottom: 8px;
+    font-size: clamp(28px, 4vw, 38px);
+  }
+  
+  .intro,
+  .section-note {
+    margin-bottom: 0;
+    color: var(--muted);
+  }
+  
+  .manager-picker {
+    display: grid;
+    gap: 7px;
+    min-width: 210px;
+  }
+  
+  .manager-picker label {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  
+  .manager-picker select {
+    padding: 11px 36px 11px 12px;
+    border: 1px solid #d6d3cc;
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--ink);
+    font: inherit;
+  }
+  
+  /* Summary cards */
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(130px, 1fr));
+    gap: 14px;
+    margin: 24px 0 36px;
+  }
+  
+  .summary-card {
+    padding: 18px 20px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--white);
+  }
+  
+  .summary-label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  
+  .summary-card strong {
+    font-size: 28px;
+  }
+  
+  /* Projects and team */
+  .section {
+    margin-bottom: 36px;
+  }
+  
+  .section-heading {
+    margin-bottom: 16px;
+  }
+  
+  .section-heading h2 {
+    margin-bottom: 0;
+    font-size: 21px;
+  }
+  
+  .project-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 14px;
+  }
+  
+  .project-card,
+  .employee-card {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--white);
+  }
+  
+  .project-card {
+    padding: 18px;
+  }
+  
+  .project-card h3 {
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+  
+  .project-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  
+  .progress-track {
+    height: 8px;
+    overflow: hidden;
+    border-radius: 99px;
+    background: #eeece7;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: var(--amber);
+  }
+  
+  .employee-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  
+  .employee-card {
+    padding: 18px;
+  }
+  
+  .employee-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #eeece7;
+  }
+  
+  .employee-header h3 {
+    margin-bottom: 4px;
+    font-size: 17px;
+  }
+  
+  .employee-role {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  
+  .workload {
+    flex-shrink: 0;
+    padding: 6px 9px;
+    border-radius: 99px;
+    background: #fff2d8;
+    color: #75500c;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  
+  .task-list {
+    display: grid;
+    gap: 10px;
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .task-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    color: #353a40;
+    font-size: 13px;
+  }
+  
+  .task-title {
+    line-height: 1.45;
+  }
+  
+  .task-status {
+    flex-shrink: 0;
+    padding: 4px 7px;
+    border-radius: 99px;
+    background: #eceae5;
+    color: #4f5358;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  
+  .task-status.in-progress {
+    background: #e2ecfa;
+    color: #174b96;
+  }
+  
+  .task-status.done {
+    background: #e3f2e8;
+    color: #1e6b3f;
+  }
+  
+  .prototype-note {
+    margin: 0;
+    color: #817b70;
+    font-size: 12px;
+  }
+  
+  .empty-state {
+    padding: 20px;
+    border: 1px dashed #d6d3cc;
+    border-radius: 10px;
+    color: var(--muted);
+    text-align: center;
+  }
+  
+  /* Smaller screens */
+  @media (max-width: 760px) {
+    .sidebar {
+      flex-basis: 180px;
+    }
+  
+    .content {
+      padding: 28px 20px;
+    }
+  
+    .summary {
+      grid-template-columns: repeat(2, minmax(120px, 1fr));
+    }
+  }
+  
+  @media (max-width: 560px) {
+    .app {
+      display: block;
+    }
+  
+    .sidebar {
+      position: static;
+      width: 100%;
+      height: auto;
+    }
+  
+    .sidebar-user {
+      margin-top: 16px;
+    }
+  
+    .content {
+      padding: 24px 16px;
+    }
+  }

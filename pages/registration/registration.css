@@ -1,0 +1,89 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.card {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 280px;
+}
+
+.input-group {
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  padding-right: 60px;
+}
+
+.password-wrapper button {
+  position: absolute;
+  right: 5px;
+  width: auto;
+  padding: 4px 8px;
+  font-size: 11px;
+  background-color: #e5e7eb;
+  color: #374151;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.password-wrapper button:hover {
+  background-color: #d1d5db;
+}
+button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #0052a3;
+}
+
+#resultMessage {
+  margin-top: 16px;
+  font-weight: bold;
+  color: green;
+  text-align: center;
+}
+
+.error {
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}

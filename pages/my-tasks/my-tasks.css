@@ -1,0 +1,254 @@
+:root {
+  --ink: #1F2328;      /* dark charcoal: text and sidebar */
+  --ground: #F6F5F2;   /* off-white page background */
+  --amber: #F2B33D;    /* accent colour */
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: sans-serif;
+}
+
+/* Page layout: menu + content side by side */
+.app {
+  display: flex;        /* put the children in a row */
+  flex-wrap: wrap;      /* allow them to wrap onto a new line if there's no room */
+  min-height: 100vh;    /* at least the full height of the screen */
+}
+
+.sidebar {
+  flex: 0 0 220px;          /* fixed 220px wide, same as the Team tasks sidebar */
+  box-sizing: border-box;
+  position: sticky;         /* stays in place while the task list scrolls */
+  top: 0;
+  height: 100vh;            /* full screen height, so the user details sit in the bottom-left corner */
+  background: var(--ink);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;   /* stack the menu items top to bottom */
+  gap: 4px;
+}
+
+.content {
+  flex: 999 1 560px;
+  min-width: 0;             /* lets long content shrink instead of overflowing */
+  padding: 40px 32px;
+}
+
+.logo {
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+  padding-bottom: 24px;
+}
+
+.sidebar a {
+  color: #D6D3CC;
+  text-decoration: none;   /* remove the underline */
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.sidebar a:hover {
+  background: #3A4048;
+  color: white;
+}
+
+/* FIXED: was ".sidebar a.active:hover", which only highlighted on hover */
+.sidebar a.active {
+  background: #3A4048;
+  color: white;
+  font-weight: 600;
+}
+
+#task-list {
+  list-style: none;      /* remove the bullet points */
+  padding: 0;
+  background: white;
+  border-radius: 12px;
+}
+
+#task-list li {
+  display: flex;
+  flex-direction: column;   /* title on top, details below */
+  padding: 16px 20px;
+  border-bottom: 1px solid #EEECE7;
+}
+
+/* each status gets its own colour so users can scan the list quickly */
+.status {
+  align-self: flex-start;   /* shrink the pill to fit its text */
+  font-size: 13px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-top: 6px;
+}
+.status.to-do       { background: #ECEAE5; color: #3F444A; }
+.status.in-progress { background: #E2ECFA; color: #174B96; }
+.status.done        { background: #E3F2E8; color: #1E6B3F; }
+
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;   /* title on the left, counters on the right */
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.page-header h1 { margin: 0; }
+
+.counters { display: flex; gap: 24px; }
+.counter { font-size: 14px; color: #5B6168; }
+.counter strong { display: block; font-size: 22px; color: var(--ink); }
+.counter.overdue strong { color: #B42318; }
+.counter.done strong    { color: #1E7A46; }
+
+/* finished tasks are crossed out and greyed, so open work stands out */
+#task-list li.is-done strong {
+  text-decoration: line-through;
+  color: #8A8F96;
+}
+
+/* checkbox: pin it to the left, like the status pill and delete button */
+.task-check {
+  align-self: flex-start;
+  margin: 0 0 8px 0;
+}
+
+/* delete button */
+.delete_btn {
+  align-self: flex-start;   /* stay small instead of stretching across the row */
+  margin-top: 8px;
+  padding: 4px 12px;
+  color: #B42318;
+  background: white;
+  border: 1px solid #B42318;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.delete_btn:hover {
+  background: #B42318;
+  color: white;
+}
+
+/* add task box */
+.adding_task {
+  display: flex;
+  flex-wrap: wrap;   /* fields drop onto a new line on a narrow screen */
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+/* FIXED: style every field the same, including the dropdowns */
+.adding_task input,
+.adding_task select {
+  padding: 10px 14px;
+  border: 1px solid #D6D3CC;
+  border-radius: 8px;
+  font: inherit;
+}
+
+/* FIXED: only the title box grows; before, the date box stretched too */
+.adding_task select {
+  background: white;
+  cursor: pointer;
+}
+
+.adding_task input[type="text"] {
+  flex: 1 1 240px;   /* grow to fill the row, never shrink below 240px */
+}
+
+.adding_task button {
+  padding: 10px 18px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--amber);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* filter buttons */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.filter_btn {
+  padding: 6px 16px;
+  color: #3F444A;
+  background: #ECEAE5;
+  border: none;
+  border-radius: 16px;   /* pill shape, like the status labels */
+  cursor: pointer;
+}
+
+.filter_btn:hover {
+  background: #DDDAD3;
+}
+
+/* the selected filter: my-tasks.js adds the class "ready" to the clicked button */
+.filter_btn.ready {
+  background: var(--ink);
+  color: white;
+}
+
+/* ADDED: hides form labels on screen but keeps them for screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+/* Logged-in user at the bottom of the sidebar */
+.sidebar-user {
+  margin-top: auto;              /* pushes this block to the bottom of the sidebar */
+  padding: 16px 12px 0;
+  border-top: 1px solid #3A4048;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-user-name {
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.sidebar-user-email {
+  color: #B5B1A9;
+  font-size: 13px;
+  overflow-wrap: anywhere;       /* long emails wrap instead of overflowing */
+}
+
+/* a button styled to look like a link */
+.sidebar-logout {
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--amber);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.sidebar-logout:hover { text-decoration: underline; }
+
+/* Phones and small screens: the sidebar becomes a bar across the top */
+@media (max-width: 860px) {
+  .sidebar {
+    flex-basis: 100%;
+    height: auto;
+    position: static;
+  }
+}

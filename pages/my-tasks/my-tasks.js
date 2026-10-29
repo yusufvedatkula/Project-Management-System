@@ -16,6 +16,7 @@ let currentFilter = 'All';
 const list = document.getElementById('task-list');
 const newTaskInput = document.getElementById('newTask_input');
 const addTaskBtn = document.getElementById('adding_task_btn');
+const prioritySelect = document.getElementById('priority_select');
 
 // Wipe the list, then rebuild it from the tasks array
 function render() {
@@ -98,12 +99,13 @@ function addTask() {
     id: Date.now(),
     title: title,
     project: 'Personal',
-    priority: 'Medium',
+    priority: prioritySelect.value,    // lets the user pick the option
     status: 'To do',
     due: todayString()
   });
 
   newTaskInput.value = '';  // box should be cleared
+  prioritySelect.value = 'Medium'; // put the dropdown back to the default
   render();
 }
 // add task button
@@ -113,6 +115,8 @@ addTaskBtn.addEventListener('click', addTask);
 document.querySelectorAll('.filter_btn').forEach(btn => {
   btn.addEventListener('click', () => {
     currentFilter = btn.dataset.filter;  // remember which filter was clicked
+    document.querySelectorAll('.filter_btn').forEach(b => b.classList.remove('ready'));
+    btn.classList.add('ready');
     render();  // redraw with that filter
   });
 });

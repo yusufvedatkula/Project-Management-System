@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>My tasks · Make-It-All Hub</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="todo.css">
 </head>
 <body>
 
@@ -27,8 +27,25 @@
         </div>
     </header>
 
-    <div class="adding_task">
-      <input type="text" id="newTask_input" placeholder="Add a new task">
+        <div class="adding_task">
+      <input type="text" id="newTask_input" placeholder="Add a task, e.g. Book room for sprint review">
+
+      <select id="project_select">
+        <option value="Personal" selected>Personal</option>
+        <option value="Client portal v2">Client portal v2</option>
+        <option value="Office IT refresh">Office IT refresh</option>
+        <option value="HR onboarding">HR onboarding</option>
+        <option value="Team coordination">Team coordination</option>
+      </select>
+
+      <select id="priority_select">
+        <option value="Low">Low</option>
+        <option value="Medium" selected>Medium</option>
+        <option value="High">High</option>
+      </select>
+
+      <input type="date" id="due_input">
+
       <button id="adding_task_btn">Add task</button>
     </div>
 
@@ -37,6 +54,22 @@
       <button class="filter_btn" data-filter="To do">To do</button>
       <button class="filter_btn" data-filter="In progress">In progress</button>
       <button class="filter_btn" data-filter="Done">Done</button>
+
+      <select id="priority_filter">
+        <option value="All">All priorities</option>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
+
+      <label class="sort_wrap">
+        Sort by
+        <select id="sort_select">
+          <option value="due" selected>Due date</option>
+          <option value="priority">Priority</option>
+          <option value="status">Status</option>
+        </select>
+      </label>
     </div>
 
       <!-- ul is empty because tasks are dynamically added via JavaScript -->
@@ -44,6 +77,6 @@
     </main>
 
   </div>
-  <script src="js/todo.js"></script>
+  <script src="todo.js"></script>
 </body>
 </html>

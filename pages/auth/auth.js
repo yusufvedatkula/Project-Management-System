@@ -9,13 +9,24 @@ const error_message = document.getElementById('error-message')
 const USERS_KEY = 'demoUsers'
 const SESSION_KEY = 'demoSession'
 
+// Only staff emails can sign up (see getSignupFormErrors)
+const COMPANY_DOMAIN = '@make-it-all.co.uk'
+
+const DEMO_USER = { firstname: 'Demo', email: 'demo' + COMPANY_DOMAIN, password: 'password123' }
+
 function getUsers(){
-  const users = JSON.parse(localStorage.getItem(USERS_KEY) || 'null')
-  if(users) return users
-  // First visit: create the demo account
-  const seeded = [{ firstname: 'Demo', email: 'demo@example.com', password: 'password123' }]
-  localStorage.setItem(USERS_KEY, JSON.stringify(seeded))
-  return seeded
+  let users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]')
+
+  // Browsers that used older versions still have the old demo accounts saved, so remove them
+  users = users.filter(u => u.email !== 'demo@example.com' && u.email !== 'demo@make-it-all.com')
+
+  // Make sure the demo account always exists, not just on the very first visit
+  if(!users.some(u => u.email === DEMO_USER.email)){
+    users.unshift(DEMO_USER)
+  }
+
+  localStorage.setItem(USERS_KEY, JSON.stringify(users))
+  return users
 }
 
 function saveUser(user){
@@ -26,7 +37,7 @@ function saveUser(user){
 
 function startSession(user){
   localStorage.setItem(SESSION_KEY, JSON.stringify({ firstname: user.firstname, email: user.email }))
-  window.location.href = 'home.html'
+  window.location.href = '../home/home.html'
 }
 
 // ---- Form handling ----
@@ -81,12 +92,25 @@ function getSignupFormErrors(firstname, email, password, repeatPassword){
     errors.push('Email is required')
     email_input.parentElement.classList.add('incorrect')
   }
+  // use the cleaned-up email (trimmed, lowercase), not the raw input
+  else if(!email.endsWith(COMPANY_DOMAIN)){
+    errors.push('Email must be a ' + COMPANY_DOMAIN + ' address')
+    email_input.parentElement.classList.add('incorrect')
+  }
   if(password === '' || password == null){
     errors.push('Password is required')
     password_input.parentElement.classList.add('incorrect')
   }
   else if(password.length < 8){
     errors.push('Password must have at least 8 characters')
+    password_input.parentElement.classList.add('incorrect')
+  }
+  else if(!/\d/.test(password)){
+    errors.push('Password must contain at least one number')
+    password_input.parentElement.classList.add('incorrect')
+  }
+  else if(!/[^\w\s]/.test(password)){
+    errors.push('Password must contain at least one symbol, e.g. ! ? # @')
     password_input.parentElement.classList.add('incorrect')
   }
   if(password !== repeatPassword){

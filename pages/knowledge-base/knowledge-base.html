@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Knowledge Base · Make-It-All Hub</title>
+  <link rel="stylesheet" href="../my-tasks/my-tasks.css">
+  <link rel="stylesheet" href="knowledge-base.css">
+</head>
+<body>
+
+  <div class="app">
+
+    <nav class="sidebar">
+      <div class="logo">Make-It-All Hub</div>
+      <a href="../home/home.html">Home</a>
+      <a href="../my-tasks/my-tasks.html">My tasks</a>
+      <a href="../team-tasks/team-tasks.html">Team tasks</a>
+      <a class="active" href="../knowledge-base/knowledge-base.html">Knowledge Base</a>
+
+      <!-- Logged-in user, filled in by shared/session.js -->
+      <div class="sidebar-user">
+        <span class="sidebar-user-name" id="sidebar-user-name"></span>
+        <span class="sidebar-user-email" id="sidebar-user-email"></span>
+        <button type="button" class="sidebar-logout" id="logout-btn">Log out</button>
+      </div>
+    </nav>
+
+    <main class="content">
+      <div class="wrapper">
+      <h1>Knowledge Base</h1>
+      <!-- Content for the knowledge base goes here -->
+       <form id ="topic-form">
+        <div>
+          <label for ="topic-input">New Topic Titles</label>
+          <input type ="text" id="topic-input" placeholder="e.g Information about Tool" required>
+        </div>
+        <button type = "submit">Create Topic</button>
+       </form>
+
+       <br>
+
+       <div class="demo-box">
+        <p class="demo-title">Topic Filter</p>
+        <div id = "topic-list" class="home-links"></div>
+       </div>
+
+       <br>
+
+       <form id="post-form">
+        <div>
+          <label for="post-input">New Post</label>
+          <input type="text" id="post-input" placeholder="Post about this topic" required>
+      </div>
+      <button type="submit">Publish Post</button>
+    </form>
+
+      <br>
+
+      <div id="posts-container" class="home-links"></div>
+    </div>
+  </main>
+
+  </div>
+
+  <script src="../shared/session.js"></script>
+  <script src="knowledge-base.js"></script>
+</body>
+</html>
