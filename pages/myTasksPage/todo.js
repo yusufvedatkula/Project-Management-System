@@ -13,6 +13,12 @@ let tasks = [
 let currentFilter = 'All';
 // remember which priority is selected (page loads showing every priority)
 let currentPriority = 'All';
+// remember how the list is sorted (the page loads sorted by due date)
+let currentSort = 'due';
+
+// the order to use when sorting by priority or status
+const priorityOrder = { High: 1, Medium: 2, Low: 3 };
+const statusOrder = { 'To do': 1, 'In progress': 2, 'Done': 3 };
 
 // Find the empty <ul> on the page, using its id
 const list = document.getElementById('task-list');
@@ -36,9 +42,16 @@ function render() {
     visibleTasks = visibleTasks.filter(t => t.priority === currentPriority);
   }
 
+  // put the remaining tasks in order, using a copy so the original list keeps its order
+  visibleTasks = [...visibleTasks].sort((a, b) => {
+    if (currentSort === 'priority') return priorityOrder[a.priority] - priorityOrder[b.priority];
+    if (currentSort === 'status') return statusOrder[a.status] - statusOrder[b.status];
+    return a.due.localeCompare(b.due);   // default: earliest due date first
+  });
+
   visibleTasks.forEach(task => {
     const li = document.createElement('li');   // make a new <li>
-    
+
     li.className = task.status === 'Done' ? 'is-done' : '';
 
     const overdue = isOverdue(task);   // true or false, used for the due date label
@@ -86,7 +99,7 @@ function updateCounters() {
   const overdue = tasks.filter(isOverdue).length;
   const done    = tasks.filter(t => t.status === 'Done').length;
   const highPriority = tasks.filter(t => t.priority === 'High' && t.status !== 'Done').length;
-  
+
   document.getElementById('count-open').textContent    = open;
   document.getElementById('count-overdue').textContent = overdue;
   document.getElementById('count-done').textContent    = done;
@@ -153,6 +166,12 @@ document.querySelectorAll('.filter_btn').forEach(btn => {
 document.getElementById('priority_filter').addEventListener('change', event => {
   currentPriority = event.target.value;   // read the option the user picked
   render();                               // redraw with that priority
+});
+
+// sort dropdown: choosing an option changes how the list is ordered
+document.getElementById('sort_select').addEventListener('change', event => {
+  currentSort = event.target.value;   // due, priority or status
+  render();                           // redraw in the new order
 });
 
 // start with today's date in the date picker
