@@ -1,0 +1,350 @@
+
+:root {
+  --ink: #1F2328;      /* dark charcoal: text and sidebar */
+  --ground: #F6F5F2;   /* off-white page background */
+  --amber: #F2B33D;    /* accent colour */
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: sans-serif;
+}
+
+/* Page layout: menu + content side by side  */
+.app {
+  display: flex;        /* put the children in a row */
+  flex-wrap: wrap;      /* allow them to wrap onto a new line if there's no room */
+  min-height: 100vh;    /* at least the full height of the screen */
+}
+
+.sidebar {
+  flex: 1 1 220px;
+  background: var(--ink);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;   /* stack the menu items top to bottom */
+  gap: 4px;
+}
+
+.content {
+  flex: 999 1 560px;
+  padding: 40px 32px;
+}
+
+.logo {
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+  padding-bottom: 24px;
+}
+
+.sidebar a {
+  color: #D6D3CC;
+  text-decoration: none;   /* remove the underline */
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.sidebar a:hover {
+  background: #3A4048;
+  color: white;
+}
+
+.sidebar a.active:hover {
+  background: #3A4048;
+  color: white;
+  font-weight: 600;
+}
+
+#task-list {
+  list-style: none;      /* remove the bullet points */
+  padding: 0;
+  background: white;
+  border-radius: 12px;
+}
+
+#task-list li {
+  display: flex;
+  align-items: center;     /* line everything up on the middle of the row */
+  flex-wrap: wrap;         /* on a narrow screen, the pills drop below the title */
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #EEECE7;
+}
+
+/* each status gets its own colour so users can scan the list quickly */
+.status {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+.status.to-do       { background: #ECEAE5; color: #3F444A; }
+.status.in-progress { background: #E2ECFA; color: #174B96; }
+.status.done        { background: #E3F2E8; color: #1E6B3F; }
+
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;   /* title on the left, counters on the right */
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.page-header h1 { margin: 0; }
+
+.counters { display: flex; gap: 24px; }
+.counter { font-size: 14px; color: #5B6168; }
+.counter strong { display: block; font-size: 22px; color: var(--ink); }
+.counter.overdue strong { color: #B42318; }
+.counter.done strong    { color: #1E7A46; }
+
+/* finished tasks are crossed out and greyed, so open work stands out */
+#task-list li.is-done strong {
+  text-decoration: line-through;
+  color: #8A8F96;
+}
+
+/* ===== Added by alagu ===== */
+
+
+/* delete button: hidden until you hover over the row */
+.delete_btn {
+  margin: 0;
+  padding: 4px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  color: #B42318;
+  background: white;
+  border: 1px solid #B42318;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0;
+}
+
+#task-list li:hover .delete_btn,
+.delete_btn:focus {
+  opacity: 1;
+}
+
+.delete_btn:hover {
+  background: #B42318;
+  color: white;
+}
+
+@media (hover: none) {
+  .delete_btn { opacity: 1; }   /* phones have no hover, so always show it */
+}
+
+/* add task box */
+.adding_task {
+  display: flex;
+  flex-wrap: wrap;          /* controls drop to a new line on a narrow screen */
+  gap: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  background: white;
+  border: 1px solid #EEECE7;
+  border-radius: 12px;
+}
+
+
+
+.adding_task button {
+  padding: 10px 18px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--amber);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* filter buttons */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.filter_btn {
+  padding: 6px 16px;
+  font-family: inherit;
+  font-size: 14px;
+  color: #3F444A;
+  background: #ECEAE5;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.filter_btn:hover {
+  background: #DDDAD3;
+}
+
+.filter_btn.ready {
+  background: var(--ink);
+  color: white;
+}
+
+#priority_filter {
+  padding: 6px 32px 6px 16px;   /* extra room on the right for the arrow */
+  font-size: inherit;
+  color: #3F444A;
+  background-color: #ECEAE5;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+
+  /* swap the browser's default arrow for a small custom one */
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%233F444A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+#priority_filter:hover {
+  background-color: #DDDAD3;
+}
+
+#priority_filter:focus {
+  outline: 2px solid var(--amber);   /* shows which control is active when using the keyboard */
+  outline-offset: 2px;
+}
+
+
+/* due date */
+.due {
+  min-width: 110px;
+  text-align: right;
+  font-size: 14px;
+  color: #5B6168;
+}
+.due.is-overdue {
+  color: #B42318;
+  font-weight: 700;
+}
+
+
+/* make the pills and dropdowns use the same font */
+.filter_btn,
+.adding_task button,
+#priority_filter,
+#priority_select {
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.task-main {
+  flex: 1 1 240px;        /* take the free space, wrap below 240px */
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.task-main small {
+  font-size: 13px;
+  color: #6B7178;
+}
+
+.task-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* priority pills */
+.priority {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+.priority.high   { background: #FBE4E1; color: #B42318; }
+.priority.medium { background: #FDF0D5; color: #8A5A00; }
+.priority.low    { background: #ECEAE5; color: #3F444A; }
+
+/* larger rounded checkbox */
+.task-check {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  flex-shrink: 0;
+  display: grid;
+  place-content: center;
+  background: white;
+  border: 2px solid #B9B5AC;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.task-check:checked {
+  background: #1E6B3F;
+  border-color: #1E6B3F;
+}
+
+.task-check:checked::after {
+  content: '✓';
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* the controls in the add task bar share one look */
+#newTask_input,
+#project_select,
+#priority_select,
+#due_input {
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--ink);
+  background-color: white;
+  border: 1px solid #D6D3CC;
+  border-radius: 8px;
+}
+
+/* only the text box grows to fill the row */
+#newTask_input {
+  flex: 1 1 240px;
+}
+
+/* the date field keeps its natural width */
+#due_input {
+  flex: 0 0 auto;
+}
+
+/* dropdowns: swap the browser arrow for a small custom one */
+#project_select,
+#priority_select {
+  padding-right: 36px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%233F444A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+#project_select:hover,
+#priority_select:hover,
+#due_input:hover {
+  border-color: #B9B5AC;
+}
+
+#newTask_input:focus,
+#project_select:focus,
+#priority_select:focus,
+#due_input:focus {
+  outline: 2px solid var(--amber);
+  outline-offset: 1px;
+}
