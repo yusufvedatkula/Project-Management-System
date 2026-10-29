@@ -7,6 +7,7 @@ let ownerInput = document.getElementById('ownerInput');
 let addTaskButton = document.getElementById('addTaskButton');
 let taskList = document.getElementById('taskList');
 let workList = document.getElementById('workList');
+let deadlineInput = document.getElementById('deadlineInput');
 
 // add new task with custom name
 function addTask() {
@@ -23,6 +24,7 @@ function addTask() {
         id: Date.now(),
         taskText: taskText.trim(),
         owner: owner.trim(),
+        deadline: deadlineInput.value,
         completed: false
     };
 
@@ -32,6 +34,7 @@ function addTask() {
     // reset input fields
     taskInput.value = "";
     ownerInput.value = "";
+    deadlineInput.value = "";
 
     loadTasks();
 }
@@ -85,11 +88,22 @@ function loadTasks() {
         }
         let list = document.createElement('li');
         let span = document.createElement('span');
-        span.textContent = task.taskText + " [Owner: " + task.owner + "]";
+        let text = task.taskText + " [Owner: " + task.owner + "]";
+
+        if (task.deadline) {
+            text += " (due " + task.deadline + ")";
+        }
+        span.textContent = text;
 
         if (task.completed === true) {
             span.className = "completed";
         }
+
+        // flags a task if it is overdue
+        if (task.deadline && !task.completed && new Date(task.deadline) < new Date().setHours(0, 0, 0, 0)) {
+            span.classList.add("overdue");
+        }
+
         list.appendChild(span);
 
         let actionsDiv = document.createElement('div');
