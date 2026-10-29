@@ -11,19 +11,28 @@
   <div class="app">
 
     <nav class="sidebar">
-      <div class="logo">Make-It-All Hub</div>
+      <div class="logo">Make-It-All <span>Hub</span></div>
       <a class="active" href="todo.html">My tasks</a>
-      <a href="knowledge.html">Knowledge Base</a>
+      <a href="../knowledge.html">Knowledge Base</a>
+
+      <div class="user-box">
+        <strong>Sam Patel</strong>
+        <small>Support · Office IT</small>
+        <span class="badge">Employee account</span>
+        <a class="logout" href="../login.html">Log out</a>
+      </div>
     </nav>
 
     <main class="content">
-      <header class="page-header">
-      <h1>My tasks</h1>
+    <header class="page-header">
+      <div class="page-title">
+        <p id="today_date" class="today"></p>
+        <h1>My tasks</h1>
+      </div>
       <div class="counters">
         <div class="counter"><strong id="count-open">0</strong>open</div>
         <div class="counter overdue"><strong id="count-overdue">0</strong>overdue</div>
         <div class="counter done"><strong id="count-done">0</strong>done</div>
-        <div class="counter high-priority"><strong id="count-high-priority">0</strong>high priority</div>
         </div>
     </header>
 
