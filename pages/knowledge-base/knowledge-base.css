@@ -1,0 +1,89 @@
+.wrapper {
+  max-width: 500px;
+}
+
+.subtitle {
+  color: #5d6166;
+  margin: 8px 0 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+form label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+form input {
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid #cfcdc7;
+  border-radius: 8px;
+  font: inherit;
+  width: 100%;
+}
+
+form button {
+  height: 44px;
+  background-color: #202428;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #3a4046;
+}
+
+.demo-box {
+  padding: 16px;
+  border: 1px dashed #cfcdc7;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.demo-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5d6166;
+  margin-bottom: 10px;
+}
+
+.home-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.home-links a {
+  display: inline-block;
+  padding: 8px 14px;
+  border: 1px solid #cfcdc7;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #202428;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.demo-row {
+  padding: 12px 14px;
+  border-radius: 6px;
+  background-color: #fdf3dc;
+  border: 1px solid #cfcdc7;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
