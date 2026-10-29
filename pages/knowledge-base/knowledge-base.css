@@ -1,6 +1,12 @@
+/* page content column; gap replaces the old <br> spacers */
 .wrapper {
-  max-width: 500px;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
+
+.wrapper h1 { margin: 0; }
 
 .subtitle {
   color: #5d6166;
@@ -31,6 +37,7 @@ form input {
   border-radius: 8px;
   font: inherit;
   width: 100%;
+  box-sizing: border-box;   /* include the padding in the 100%, so inputs line up with the buttons */
 }
 
 form button {
@@ -85,5 +92,26 @@ form button:hover {
   background-color: #fdf3dc;
   border: 1px solid #cfcdc7;
   font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+/* the selected topic in the filter */
+.home-links a.active-topic {
+  background-color: #fdf3dc;
+  border-color: #e8b04a;
+}
+
+/* posts stack one per row (they used to wrap side by side like the topic chips) */
+.posts-heading {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.post-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-list .demo-row {
   margin-bottom: 10px;
 }

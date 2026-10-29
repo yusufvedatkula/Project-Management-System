@@ -28,8 +28,9 @@ function renderTopics() {
         btn.href = '#';
         btn.textContent = topic;
 
+        // highlight the selected topic (styled by .active-topic in knowledge-base.css)
         if (topic === activeTopic) {
-            btn.style.backgroundColor = 'var(--demo-row-warm)';
+            btn.classList.add('active-topic');
         }
 
         btn.addEventListener('click', (e) => {
@@ -44,16 +45,26 @@ function renderTopics() {
 }
 function renderPosts() {
     postsContainer.innerHTML = '';
-    
-    if (posts.length === 0) {
-        postsContainer.innerHTML = '<p class="subtitle">No posts published yet.</p>';
+
+    // only show the posts for the selected topic, so the topic filter actually filters
+    const topicPosts = posts.filter(post => post.topic === activeTopic);
+    document.getElementById('posts-heading').textContent = 'Posts in "' + activeTopic + '"';
+
+    if (topicPosts.length === 0) {
+        postsContainer.innerHTML = '<p class="subtitle">No posts in this topic yet. Be the first to write one.</p>';
         return;
     }
 
-    posts.forEach(post => {
+    topicPosts.forEach(post => {
         const postCard = document.createElement('div');
         postCard.className = 'demo-row';
-        postCard.innerHTML = `<strong>[${post.topic}]</strong> ${post.text}`;
+
+        // textContent (not innerHTML) so typed text is shown as text, never run as HTML
+        const topicLabel = document.createElement('strong');
+        topicLabel.textContent = '[' + post.topic + '] ';
+        postCard.appendChild(topicLabel);
+        postCard.appendChild(document.createTextNode(post.text));
+
         postsContainer.appendChild(postCard);
     });
 }
@@ -67,6 +78,7 @@ function renderPosts() {
             activeTopic = newTopic;
             topicInput.value = '';
             renderTopics();
+            renderPosts();   // switch the post list to the new (empty) topic
         }
     });
 
