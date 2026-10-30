@@ -49,6 +49,16 @@ function render() {
     return a.due.localeCompare(b.due);   // default: earliest due date first
   });
 
+  // if nothing to show
+  if (visibleTasks.length === 0) {
+    const message = tasks.length === 0
+      ? 'No tasks yet. Add one above.'
+      : 'No tasks match these filters';
+    list.innerHTML = `<li class="empty">${message}</li>`;
+    updateCounters();
+    return;
+  }
+
   visibleTasks.forEach(task => {
     const li = document.createElement('li');   // make a new <li>
 
@@ -98,12 +108,10 @@ function updateCounters() {
   const open    = tasks.filter(t => t.status !== 'Done').length;
   const overdue = tasks.filter(isOverdue).length;
   const done    = tasks.filter(t => t.status === 'Done').length;
-  const highPriority = tasks.filter(t => t.priority === 'High' && t.status !== 'Done').length;
 
   document.getElementById('count-open').textContent    = open;
   document.getElementById('count-overdue').textContent = overdue;
   document.getElementById('count-done').textContent    = done;
-  document.getElementById('count-high-priority').textContent = highPriority;
 }
 
 
@@ -162,19 +170,26 @@ document.querySelectorAll('.filter_btn').forEach(btn => {
   });
 });
 
-// priority dropdown, choosing an option changes which priority is shown
+// priority dropdown
 document.getElementById('priority_filter').addEventListener('change', event => {
   currentPriority = event.target.value;   // read the option the user picked
   render();                               // redraw with that priority
 });
 
-// sort dropdown: choosing an option changes how the list is ordered
+// sort dropdown
 document.getElementById('sort_select').addEventListener('change', event => {
   currentSort = event.target.value;   // due, priority or status
   render();                           // redraw in the new order
 });
 
+// show today's date above the page title
+document.getElementById('today_date').textContent = new Date().toLocaleDateString('en-GB', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long'
+});
+
 // start with today's date in the date picker
 dueInput.value = todayString();
-// Draw the list once when the page first loads
+// draw the list once when the page first loads
 render();
