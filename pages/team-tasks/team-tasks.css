@@ -171,6 +171,18 @@ body {
     box-shadow: 0 0 0 3px rgba(246, 173, 85, 0.15);
 }
 
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+    background: #ffffff;
+    transition: border-color 0.2s;
+}
+
 /* Gold/Amber Primary Button */
 button.primary {
     background-color: #f6ad55;
@@ -245,4 +257,32 @@ ul li {
 .task-actions button:hover {
     background: #edf2f7;
     border-color: #a0aec0;
+}
+
+.filter-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.filter-tabs button {
+    padding: 6px 14px;
+    font-size: 13px;
+    border: 1px solid #cbd5e0;
+    border-radius: 16px;
+    background: #ffffff;
+    color: #4a5568;
+    cursor: pointer;
+}
+
+.filter-tabs button:hover {
+    background: #edf2f7;
+}
+
+.filter-tabs button.active {
+    background: #f6ad55;
+    border-color: #f6ad55;
+    color: #1a202c;
+    font-weight: 600;
 }
