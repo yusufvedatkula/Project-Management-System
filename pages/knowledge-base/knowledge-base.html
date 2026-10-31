@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Knowledge Base · Make-It-All Hub</title>
-  <link rel="stylesheet" href="../my-tasks/my-tasks.css">
   <link rel="stylesheet" href="knowledge-base.css">
 </head>
 <body>
@@ -12,11 +11,11 @@
   <div class="app">
 
     <nav class="sidebar">
-      <div class="logo">Make-It-All Hub</div>
+      <div class="logo">Make-It-All <span>Hub</span></div>
+      <a href="../home/home.html">Home</a>
       <a href="../my-tasks/my-tasks.html">My tasks</a>
       <a href="../team-tasks/team-tasks.html">Team tasks</a>
-      <a class="active" href="../knowledge-base/knowledge-base.html">Knowledge Base</a>
-      <a href="../managers-dashboard/managers-dashboard.html">Manager's dashboard</a>
+      <a class="active" href="../knowledge-base/knowledge-base.html">Knowledge base</a>
 
       <!-- Logged-in user, filled in by shared/session.js -->
       <div class="sidebar-user">
@@ -27,38 +26,108 @@
     </nav>
 
     <main class="content">
-      <div class="wrapper">
-      <h1>Knowledge Base</h1>
-      <!-- Content for the knowledge base goes here -->
-       <form id ="topic-form">
+
+      <header class="page-head">
         <div>
-          <label for ="topic-input">New Topic Titles</label>
-          <input type ="text" id="topic-input" placeholder="e.g Information about Tool" required>
+          <p class="page-meta" id="kb-meta"></p>
+          <h1>Knowledge base</h1>
         </div>
-        <button type = "submit">Create Topic</button>
-       </form>
+        <div class="head-actions">
+          <button type="button" id="new-topic-btn" class="btn btn-secondary">New topic</button>
+          <button type="button" id="create-post-btn" class="btn btn-primary">New post</button>
+        </div>
+      </header>
 
-       <div class="demo-box">
-        <p class="demo-title">Topic Filter</p>
-        <div id = "topic-list" class="home-links"></div>
-       </div>
+      <label class="search" for="search-input">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="M20 20l-3.5-3.5"></path>
+        </svg>
+        <input type="search" id="search-input" placeholder="Search posts, e.g. printer, VPN, expenses">
+      </label>
 
-       <form id="post-form">
-        <div>
-          <label for="post-input">New Post</label>
-          <input type="text" id="post-input" placeholder="Post about this topic" required>
+      <div class="kb-grid">
+
+        <section>
+          <h2>Topics</h2>
+          <div class="chips" id="topic-filters"></div>
+          <div id="topic-list"></div>
+        </section>
+
+        <section>
+          <h2>Recent posts</h2>
+          <div id="posts-container"></div>
+        </section>
+
       </div>
-      <button type="submit">Publish Post</button>
-    </form>
 
-      <h2 class="posts-heading" id="posts-heading">Posts</h2>
-      <div id="posts-container" class="post-list"></div>
-    </div>
-  </main>
+      <!-- New topic popup -->
+      <div id="topic-modal" class="modal" hidden>
+        <div class="modal-content">
+          <h2>New topic</h2>
+          <form id="topic-form">
+            <div>
+              <label for="topic-input">Topic title</label>
+              <input type="text" id="topic-input" placeholder="e.g. Information about a tool" required>
+            </div>
+            <div class="modal-buttons">
+              <button type="button" id="cancel-topic-btn" class="btn-cancel">Cancel</button>
+              <button type="submit" class="btn-submit">Create topic</button>
+            </div>
+          </form>
+        </div>
+      </div>
 
+      <!-- New post popup -->
+      <div id="post-modal" class="modal" hidden>
+        <div class="modal-content">
+          <h2>New post</h2>
+          <form id="post-form">
+            <div>
+              <label for="post-topic">Topic</label>
+              <select id="post-topic" required></select>
+            </div>
+            <div>
+              <label for="post-title">Post title</label>
+              <input type="text" id="post-title" placeholder="Enter your post title..." required>
+            </div>
+            <div>
+              <label for="post-content">Post content</label>
+              <textarea id="post-content" placeholder="Enter your post content..." required></textarea>
+            </div>
+            <div class="modal-buttons">
+              <button type="button" id="cancel-post-btn" class="btn-cancel">Cancel</button>
+              <button type="submit" class="btn-submit">Publish post</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- View post popup -->
+      <div id="view-post-modal" class="modal" hidden>
+        <div class="modal-content post-detail-content">
+          <button type="button" id="close-post-btn" class="close-post-btn" aria-label="Close">&times;</button>
+
+          <span id="detail-topic" class="post-topic"></span>
+          <h2 id="detail-title"></h2>
+          <p id="detail-content"></p>
+
+          <hr>
+
+          <h3 id="comments-heading">Comments (0)</h3>
+          <div id="comments-container"></div>
+
+          <form id="comment-form" class="comment-form">
+            <label for="comment-input">Add a comment</label>
+            <textarea id="comment-input" placeholder="Enter your comment..." required></textarea>
+            <button type="submit">Add comment</button>
+          </form>
+        </div>
+      </div>
+
+    </main>
   </div>
 
-  <script src="../shared/session.js"></script>
   <script src="knowledge-base.js"></script>
 </body>
 </html>
