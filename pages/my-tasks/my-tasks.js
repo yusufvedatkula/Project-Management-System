@@ -11,12 +11,22 @@ let tasks = [
 
 // page loads every task
 let currentFilter = 'All';
+// remember which priority is selected (page loads showing every priority)
+let currentPriority = 'All';
+// remember how the list is sorted (the page loads sorted by due date)
+let currentSort = 'due';
+
+// the order to use when sorting by priority or status
+const priorityOrder = { High: 1, Medium: 2, Low: 3 };
+const statusOrder = { 'To do': 1, 'In progress': 2, 'Done': 3 };
 
 // Find the empty <ul> on the page, using its id
 const list = document.getElementById('task-list');
 const newTaskInput = document.getElementById('newTask_input');
 const addTaskBtn = document.getElementById('adding_task_btn');
 const prioritySelect = document.getElementById('priority_select');
+const projectSelect = document.getElementById('project_select');
+const dueInput = document.getElementById('due_input');
 
 // Wipe the list, then rebuild it from the tasks array
 function render() {
@@ -27,15 +37,46 @@ function render() {
       visibleTasks = tasks.filter(t => t.status === currentFilter); // keeps each task whose status text matches the selected filter exactly
     }
 
+    // narrow it down again by priority if one is selected
+    if (currentPriority !== 'All') {
+    visibleTasks = visibleTasks.filter(t => t.priority === currentPriority);
+  }
+
+  // put the remaining tasks in order, using a copy so the original list keeps its order
+  visibleTasks = [...visibleTasks].sort((a, b) => {
+    if (currentSort === 'priority') return priorityOrder[a.priority] - priorityOrder[b.priority];
+    if (currentSort === 'status') return statusOrder[a.status] - statusOrder[b.status];
+    return a.due.localeCompare(b.due);   // default: earliest due date first
+  });
+
+  // if nothing to show
+  if (visibleTasks.length === 0) {
+    const message = tasks.length === 0
+      ? 'No tasks yet. Add one above.'
+      : 'No tasks match these filters';
+    list.innerHTML = `<li class="empty">${message}</li>`;
+    updateCounters();
+    return;
+  }
+
   visibleTasks.forEach(task => {
     const li = document.createElement('li');   // make a new <li>
-    
+
     li.className = task.status === 'Done' ? 'is-done' : '';
+
+    const overdue = isOverdue(task);   // true or false, used for the due date label
+
     li.innerHTML = `
       <input type="checkbox" class="task-check" ${task.status === 'Done' ? 'checked' : ''}>
-      <strong>${task.title}</strong>
-      <span>${task.project} · ${task.priority} · due ${task.due}</span>
-      <span class="status ${task.status.toLowerCase().replace(' ', '-')}">${task.status}</span>
+      <div class="task-main">
+        <strong>${task.title}</strong>
+        <small>${task.project}</small>
+      </div>
+      <div class="task-meta">
+        <span class="priority ${task.priority.toLowerCase()}">${task.priority}</span>
+        <span class="status ${task.status.toLowerCase().replace(' ', '-')}">${task.status}</span>
+        <span class="due ${overdue ? 'is-overdue' : ''}">${overdue ? 'Overdue · ' : 'Due '}${formatDate(task.due)}</span>
+      </div>
       <button class="delete_btn">Delete</button>`;
 
     li.querySelector('.task-check').addEventListener('change', () => toggleDone(task.id));
@@ -57,17 +98,20 @@ function isOverdue(task) {
   return task.status !== 'Done' && task.due < todayString();
 }
 
+// Turn '2026-10-09' into '9 Oct' for display
+function formatDate(iso) {
+  return new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
+
 // Count the tasks and put the numbers on the page
 function updateCounters() {
   const open    = tasks.filter(t => t.status !== 'Done').length;
   const overdue = tasks.filter(isOverdue).length;
   const done    = tasks.filter(t => t.status === 'Done').length;
-  const highPriority = tasks.filter(t => t.priority === 'High' && t.status !== 'Done').length;
-  
+
   document.getElementById('count-open').textContent    = open;
   document.getElementById('count-overdue').textContent = overdue;
   document.getElementById('count-done').textContent    = done;
-  document.getElementById('count-high-priority').textContent = highPriority;
 }
 
 
@@ -95,17 +139,19 @@ function addTask() {
   const title = newTaskInput.value;
   if (title === '') return; // nothing typed, so do nothing
 
-  tasks.push({
+    tasks.push({
     id: Date.now(),
     title: title,
-    project: 'Personal',
-    priority: prioritySelect.value,    // lets the user pick the option
+    project: projectSelect.value,       // whichever project the user picked
+    priority: prioritySelect.value,
     status: 'To do',
-    due: todayString()
+    due: dueInput.value || todayString() // the picked date, or today if left empty
   });
 
   newTaskInput.value = '';  // box should be cleared
   prioritySelect.value = 'Medium'; // put the dropdown back to the default
+  projectSelect.value = 'Personal'; // reset the project too
+  dueInput.value = todayString();   // and the date back to today
   render();
 }
 // add task button
@@ -115,11 +161,35 @@ addTaskBtn.addEventListener('click', addTask);
 document.querySelectorAll('.filter_btn').forEach(btn => {
   btn.addEventListener('click', () => {
     currentFilter = btn.dataset.filter;  // remember which filter was clicked
+
+    // take the highlight off all four buttons, then put it on the one clicked
     document.querySelectorAll('.filter_btn').forEach(b => b.classList.remove('ready'));
     btn.classList.add('ready');
+
     render();  // redraw with that filter
   });
 });
 
-// Draw the list once when the page first loads
+// priority dropdown
+document.getElementById('priority_filter').addEventListener('change', event => {
+  currentPriority = event.target.value;   // read the option the user picked
+  render();                               // redraw with that priority
+});
+
+// sort dropdown
+document.getElementById('sort_select').addEventListener('change', event => {
+  currentSort = event.target.value;   // due, priority or status
+  render();                           // redraw in the new order
+});
+
+// show today's date above the page title
+document.getElementById('today_date').textContent = new Date().toLocaleDateString('en-GB', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long'
+});
+
+// start with today's date in the date picker
+dueInput.value = todayString();
+// draw the list once when the page first loads
 render();
