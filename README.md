@@ -32,14 +32,15 @@ pages/
     team-tasks.js
   knowledge-base/
     knowledge-base.html
+    knowledge-base.css
+    knowledge-base.js
   managers-dashboard/
     managers-dashboard.html
     managers-dashboard.css
     managers-dashboard.js
-  registration/                Staff registration form (work email + password rules)
-    registration.html
-    registration.css
-    registration.js
+  shared/                      Used by several pages
+    session.js                 Checks who is logged in, fills the sidebar, log out
+    sample-team.js             Sample team and assigned tasks (Team tasks + Manager's dashboard)
 ```
 
 ## Page flow
