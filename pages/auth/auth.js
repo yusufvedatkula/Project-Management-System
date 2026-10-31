@@ -37,7 +37,7 @@ function saveUser(user){
 
 function startSession(user){
   localStorage.setItem(SESSION_KEY, JSON.stringify({ firstname: user.firstname, email: user.email }))
-  window.location.href = '../home/home.html'
+  window.location.href = '../my-tasks/my-tasks.html'   // land on My tasks after logging in
 }
 
 // ---- Form handling ----

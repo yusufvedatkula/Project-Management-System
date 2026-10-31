@@ -165,8 +165,7 @@ form div.incorrect label {
 }
 
 /* Buttons */
-form button,
-.logout-btn {
+form button {
   width: 100%;
   height: 48px;
   border: none;
@@ -179,11 +178,9 @@ form button,
   transition: 150ms ease;
 }
 
-form button:hover,
-.logout-btn:hover { background-color: #3a4046; }
+form button:hover { background-color: #3a4046; }
 
-form button:focus-visible,
-.logout-btn:focus-visible {
+form button:focus-visible {
   outline: 3px solid var(--amber);
   outline-offset: 2px;
 }
@@ -220,52 +217,10 @@ form button:focus-visible,
 a { color: var(--link); }
 a:hover { text-decoration: none; }
 
-.welcome-name { margin-bottom: 26px; }
-
 /* ---- Small screens ---- */
 @media (max-width: 800px) {
   body { grid-template-columns: 1fr; }
   .brand-panel { min-height: 0; padding: 20px 24px; }
   .brand-copy, .brand-foot { display: none; }
   .wrapper { padding: 32px 20px; }
-}
-
-/* Links to the main pages on the home page */
-.home-links {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* Each home link is a large clickable card, so the page works as a menu */
-.home-links a {
-  display: block;               /* make the whole box clickable, not just the text */
-  padding: 16px 18px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background-color: var(--white);
-  color: var(--ink);
-  font-weight: 600;
-  text-decoration: none;
-  transition: 150ms ease;
-}
-
-.home-links a:hover {
-  border-color: var(--ink);
-  background-color: var(--demo-row);
-}
-
-/* keyboard users can see which link is selected */
-.home-links a:focus-visible {
-  outline: 3px solid var(--amber);
-  outline-offset: 2px;
-}
-
-/* Log out button on the home page.
-   "width: 100%" in the shared button rule above made it stretch across the
-   whole right side, because it overrode the 400px column width.
-   This puts it back in line with the links above it. */
-.wrapper > .logout-btn {
-  width: min(400px, 100%);
-  margin-top: 24px;
 }

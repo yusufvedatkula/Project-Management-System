@@ -18,10 +18,8 @@ pages/
   auth/                        Log in and sign up
     login.html
     signup.html
-    auth.css                   Shared by login, signup and home
+    auth.css                   Shared by login and signup
     auth.js                    Form validation, demo accounts and session
-  home/
-    home.html                  Shown after logging in; links to every page
   my-tasks/
     my-tasks.html
     my-tasks.css               Also used by the Knowledge Base page
@@ -45,13 +43,13 @@ pages/
 
 ## Page flow
 
-`index.html` → **Log in** / **Sign up** → **Home** → My tasks · Team tasks · Knowledge Base · Manager's dashboard
+`index.html` → **Log in** / **Sign up** → **My tasks** (landing page) · Team tasks · Knowledge Base · Manager's dashboard, all reached from the sidebar
 
 ## Conventions
 
 - File and folder names are lowercase with hyphens: `my-tasks.html`, not `myTasks.html` or `my_tasks.html`.
 - A page's CSS and JS files share the page's name and sit in the same folder.
-- Links between pages are relative, e.g. `../home/home.html`.
+- Links between pages are relative, e.g. `../my-tasks/my-tasks.html`.
 
 ## Contributing
 
