@@ -1,5 +1,17 @@
-// store tasks during session
-let tasksList = [];
+// start with the shared sample tasks (shared/sample-team.js), so this page shows
+// the same team and tasks as the Manager's dashboard
+let tasksList = TEAM_TASKS.map(function (task) {
+    return {
+        id: task.id,
+        taskText: task.title,
+        owner: task.owner,
+        deadline: task.deadline,
+        priority: task.priority,
+        complexity: task.complexity,
+        hours: task.hours,
+        completed: task.status === "Done"
+    };
+});
 
 // Get HTML elements
 let taskInput = document.getElementById('taskInput');
@@ -15,6 +27,14 @@ let filterTabs = document.getElementById('filterTabs');
 
 // can filter tasks by owner
 let currentFilter = "all";
+
+// fill the "Assign To" dropdown with the team members
+TEAM_MEMBERS.forEach(function (member) {
+    let option = document.createElement('option');
+    option.value = member.name;
+    option.textContent = member.name + " (" + member.role + ")";
+    ownerInput.appendChild(option);
+});
 
 // add new task with custom name
 function addTask() {

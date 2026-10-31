@@ -505,3 +505,57 @@ h1 {
     padding: 24px 16px;
   }
 }
+
+
+/* ---- Task details, overload flag and reassigning ---- */
+.workload.overloaded {
+  background: #fbe4e1;
+  color: #8a1c12;
+}
+
+.task-row {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f2f0eb;
+}
+
+.task-row:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.task-main {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.task-meta {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.task-meta.overdue {
+  color: #b42318;
+  font-weight: 600;
+}
+
+.task-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.reassign-select {
+  max-width: 130px;
+  padding: 4px 6px;
+  border: 1px solid #d6d3cc;
+  border-radius: 6px;
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}

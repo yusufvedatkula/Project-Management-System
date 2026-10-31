@@ -3,31 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Make-It-All Hub - Dashboard</title>
+    <title>Team tasks · Make-It-All Hub</title>
     <link rel="stylesheet" href="team-tasks.css">
 </head>
 <body>
 
-    <!-- Dark Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-brand">Make-It-All <span>Hub</span></div>
-        <nav class="sidebar-nav">
-            <a href="#" class="nav-item active">Tasks</a>
-        </nav>
-        <div class="sidebar-footer">
-            <div class="user-name">Miran Vadgama</div>
-            <div class="user-role">Technician</div>
-            <span class="badge-account">Employee account</span>
-            <a href="#" class="logout-link">Log out</a>
+    <!-- Same sidebar as the other pages; user details filled in by shared/session.js -->
+    <nav class="sidebar" aria-label="Main navigation">
+        <div class="logo">Make-It-All Hub</div>
+        <a href="../home/home.html">Home</a>
+        <a href="../my-tasks/my-tasks.html">My tasks</a>
+        <a class="active" href="team-tasks.html" aria-current="page">Team tasks</a>
+        <a href="../knowledge-base/knowledge-base.html">Knowledge Base</a>
+        <a href="../managers-dashboard/managers-dashboard.html">Manager's dashboard</a>
+
+        <div class="sidebar-user">
+            <span class="sidebar-user-name" id="sidebar-user-name"></span>
+            <span class="sidebar-user-email" id="sidebar-user-email"></span>
+            <button type="button" class="sidebar-logout" id="logout-btn">Log out</button>
         </div>
-    </aside>
+    </nav>
 
     <!-- Main Content Area -->
     <main class="main-content">
         <header class="content-header">
             <div>
-                <h1>Make-It-All Dashboard</h1>
-                <div class="date-sub">Productivity Management System</div>
+                <h1>Team tasks</h1>
+                <div class="date-sub">Assign project tasks to your team and track who is working on what</div>
             </div>
         </header>
 
@@ -41,7 +43,10 @@
                 </div>
                 <div class="form-group">
                     <label for="ownerInput">Assign To Team Member:</label>
-                    <input type="text" id="ownerInput">
+                    <select id="ownerInput">
+                        <option value="">Choose a team member</option>
+                        <!-- team members are added by team-tasks.js from shared/sample-team.js -->
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="deadlineInput">Deadline:</label>
@@ -69,10 +74,6 @@
                         <input type="number" id="hoursInput" min="0.25" step="0.25">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="deadlineInput">Deadline:</label>
-                    <input type="date" id="deadlineInput">
-                </div>
                 <button class="primary" id="addTaskButton">Add Task</button>
 
                 <h3>Current Tasks</h3>
@@ -93,6 +94,8 @@
         </div>
     </main>
 
+    <script src="../shared/session.js"></script>
+    <script src="../shared/sample-team.js"></script>
     <script src="team-tasks.js"></script>
 </body>
 </html>

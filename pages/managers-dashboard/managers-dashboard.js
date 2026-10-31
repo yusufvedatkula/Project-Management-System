@@ -1,47 +1,54 @@
-// Hardcoded sample employees and to-do lists for the signed-in manager's demo team.
-const manager = {
-  employees: [
-    {
-      name: "Daniel Brooks",
-      role: "Developer",
-      tasks: [
-        { title: "Build the project overview page", project: "Project Portal", status: "In progress", overdue: false },
-        { title: "Check the mobile layout", project: "Project Portal", status: "To do", overdue: true },
-        { title: "Fix sign-in form spacing", project: "Staff Tools", status: "Done", overdue: false },
-        { title: "Prepare the onboarding checklist", project: "HR onboarding", status: "Done", overdue: false }
-      ]
-    },
-    {
-      name: "Priya Shah",
-      role: "UX Designer",
-      tasks: [
-        { title: "Review dashboard wireframes", project: "Project Portal", status: "Done", overdue: false },
-        { title: "Prepare icons for the task list", project: "Staff Tools", status: "In progress", overdue: false },
-        { title: "Confirm replacement equipment", project: "Network upgrade", status: "Done", overdue: false }
-      ]
-    },
-    {
-      name: "Lewis Turner",
-      role: "Developer",
-      tasks: [
-        { title: "Connect the task filters", project: "Project Portal", status: "To do", overdue: true },
-        { title: "Test the registration page", project: "Staff Tools", status: "In progress", overdue: false },
-        { title: "Update the help page links", project: "Staff Tools", status: "Done", overdue: false },
-        { title: "Schedule new starter sessions", project: "HR onboarding", status: "To do", overdue: true },
-        { title: "Install replacement network switches", project: "Network upgrade", status: "In progress", overdue: true }
-      ]
-    }
-  ]
-};
+// The team and their assigned tasks come from shared/sample-team.js,
+// the same data the Team tasks page uses. Personal to-do lists are never included.
+
+// More estimated hours than this (of unfinished work) = flagged as overloaded
+const OVERLOAD_HOURS = 20;
+
+// Today's date as "YYYY-MM-DD", the same format as task.deadline
+function todayString() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+// A task is overdue if it isn't done and its deadline has passed
+function isOverdue(task) {
+  return task.status !== "Done" && task.deadline < todayString();
+}
+
+// "2026-11-10" -> "10 Nov"
+function niceDate(isoDate) {
+  return new Date(isoDate).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+}
+
+// Build each employee's card data from the shared task list
+function buildEmployees() {
+  return TEAM_MEMBERS.map(function (member) {
+    return {
+      name: member.name,
+      role: member.role,
+      tasks: TEAM_TASKS
+        .filter(function (task) { return task.owner === member.name; })
+        .map(function (task) { return { ...task, overdue: isOverdue(task) }; })
+    };
+  });
+}
+
+// Move a task to another team member, then redraw the whole dashboard
+function reassignTask(taskId, newOwner) {
+  const task = TEAM_TASKS.find(function (t) { return t.id === taskId; });
+  task.owner = newOwner;
+  renderDashboard();
+}
+
+const manager = { employees: [] };
 
 const employeeGrid = document.getElementById("employee-grid");
 const projectList = document.getElementById("project-list");
 
 const projectDetails = {
-  "Project Portal": { deadline: "30 Oct", status: "At risk" },
-  "Staff Tools": { deadline: "6 Nov", status: "On track" },
-  "HR onboarding": { deadline: "23 Oct", status: "Late" },
-  "Network upgrade": { deadline: "9 Oct", status: "Late" }
+  "Project Portal": { deadline: "14 Nov", status: "At risk" },
+  "Staff Tools": { deadline: "21 Nov", status: "On track" },
+  "HR onboarding": { deadline: "30 Oct", status: "Late" },
+  "Network upgrade": { deadline: "28 Oct", status: "Late" }
 };
 
 function makeElement(tagName, className, text) {
@@ -58,6 +65,35 @@ function makeElement(tagName, className, text) {
   return element;
 }
   
+  // total estimated hours of an employee's unfinished tasks
+  function getActiveHours(employee) {
+    return employee.tasks
+      .filter(function (task) { return task.status !== "Done"; })
+      .reduce(function (total, task) { return total + task.hours; }, 0);
+  }
+
+  function capitalise(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }
+
+  // dropdown that lets the manager move a task to someone else
+  function makeReassignSelect(task) {
+    const select = makeElement("select", "reassign-select");
+    select.setAttribute("aria-label", "Reassign " + task.title);
+
+    TEAM_MEMBERS.forEach(function (member) {
+      const option = makeElement("option", "", member.name);
+      option.value = member.name;
+      option.selected = member.name === task.owner;
+      select.appendChild(option);
+    });
+
+    select.addEventListener("change", function () {
+      reassignTask(task.id, select.value);
+    });
+    return select;
+  }
+
   function getActiveTaskCount(employee) {
     return employee.tasks.filter(function (task) {
       return task.status !== "Done";
@@ -71,8 +107,13 @@ function makeElement(tagName, className, text) {
     const name = makeElement("h3", "", employee.name);
     const role = makeElement("p", "employee-role", employee.role);
     const activeCount = getActiveTaskCount(employee);
-    const workloadText = activeCount === 1 ? "1 active task" : activeCount + " active tasks";
-    const workload = makeElement("span", "workload", workloadText);
+    const activeHours = getActiveHours(employee);
+    const overloaded = activeHours > OVERLOAD_HOURS;
+    let workloadText = (activeCount === 1 ? "1 active task" : activeCount + " active tasks") + " · " + activeHours + "h";
+    if (overloaded) {
+      workloadText += " · Overloaded";
+    }
+    const workload = makeElement("span", overloaded ? "workload overloaded" : "workload", workloadText);
   
     details.append(name, role);
     header.append(details, workload);
@@ -82,11 +123,26 @@ function makeElement(tagName, className, text) {
   
     employee.tasks.forEach(function (task) {
       const row = makeElement("li", "task-row");
+      const main = makeElement("div", "task-main");
       const title = makeElement("span", "task-title", task.title);
+
+      // priority · complexity · hours · deadline
+      const detailText = capitalise(task.priority) + " priority · " + capitalise(task.complexity) +
+        " · " + task.hours + "h · due " + niceDate(task.deadline);
+      const meta = makeElement("span", task.overdue ? "task-meta overdue" : "task-meta",
+        task.overdue ? detailText + " · Overdue" : detailText);
+      main.append(title, meta);
+
+      const side = makeElement("div", "task-side");
       const statusClass = task.status.toLowerCase().replace(" ", "-");
-      const status = makeElement("span", "task-status " + statusClass, task.status);
-  
-      row.append(title, status);
+      side.appendChild(makeElement("span", "task-status " + statusClass, task.status));
+
+      // unfinished tasks can be moved to another team member
+      if (task.status !== "Done") {
+        side.appendChild(makeReassignSelect(task));
+      }
+
+      row.append(main, side);
       taskList.appendChild(row);
     });
   
@@ -207,6 +263,7 @@ function renderProjects(employees) {
 }
   
 function renderDashboard() {
+  manager.employees = buildEmployees();   // rebuild from the shared tasks (picks up reassignments)
   employeeGrid.replaceChildren();
 
   let activeTasks = 0;
