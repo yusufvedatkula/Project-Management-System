@@ -42,7 +42,7 @@
     <div class="adding_task">
       <label class="field field-grow">
         <span class="field-label">Task</span>
-        <input type="text" id="newTask_input" placeholder="e.g. Book a meeting room">
+        <input type="text" id="newTask_input" placeholder="What needs doing?">
       </label>
 
       <label class="field">
@@ -89,10 +89,10 @@
     </div>
 
     <div class="filters">
+      <!-- a task is either open or done (ticked), so these are the only filters needed -->
       <button class="filter_btn ready" data-filter="All">All</button>
-      <button class="filter_btn" data-filter="To do">To do</button>
-      <button class="filter_btn" data-filter="In progress">In progress</button>
-      <button class="filter_btn" data-filter="Done">Done</button>
+      <button class="filter_btn" data-filter="Open">Open</button>
+      <button class="filter_btn" data-filter="Done">Completed</button>
 
       <select id="priority_filter">
         <option value="All">All priorities</option>
@@ -106,7 +106,6 @@
         <select id="sort_select">
           <option value="due" selected>Due date</option>
           <option value="priority">Priority</option>
-          <option value="status">Status</option>
           <option value="complexity">Complexity</option>
           <option value="hours">Estimated hours</option>
         </select>

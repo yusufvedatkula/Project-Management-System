@@ -1,8 +1,8 @@
 // The "notebook": our list of tasks.
 // No database yet, so the data lives here. In Part 2 it will come from the database.
 let tasks = [
-  { id: 1, title: 'Fix session timeout on client login page', project: 'Client portal v2', priority: 'High',   status: 'In progress', due: '2026-10-30' },
-  { id: 2, title: 'Update printer drivers on 2nd-floor PCs',  project: 'Office IT refresh', priority: 'High',   status: 'In progress', due: '2026-11-06' },
+  { id: 1, title: 'Fix session timeout on client login page', project: 'Client portal v2', priority: 'High',   status: 'To do',       due: '2026-10-30' },
+  { id: 2, title: 'Update printer drivers on 2nd-floor PCs',  project: 'Office IT refresh', priority: 'High',   status: 'To do',       due: '2026-11-06' },
   { id: 3, title: 'Draft onboarding checklist',               project: 'HR onboarding',     priority: 'Medium', status: 'To do',       due: '2026-11-10' },
   { id: 4, title: 'Write knowledge base post on VPN setup',   project: 'Office IT refresh', priority: 'Low',    status: 'To do',       due: '2026-11-13' },
   { id: 5, title: 'Order printing paper for Finance',         project: 'Personal',          priority: 'Low',    status: 'Done',        due: '2026-10-28' },
@@ -28,9 +28,9 @@ let currentPriority = 'All';
 // remember how the list is sorted (the page loads sorted by due date)
 let currentSort = 'due';
 
-// the order to use when sorting by priority or status
+// the order to use when sorting by priority
+// (a task's status is just 'To do' or 'Done', set by ticking its checkbox)
 const priorityOrder = { High: 1, Medium: 2, Low: 3 };
-const statusOrder = { 'To do': 1, 'In progress': 2, 'Done': 3 };
 const complexityOrder = { hard: 1, medium: 2, easy: 3 };   // hardest first
 
 // Find the empty <ul> on the page, using its id
@@ -49,7 +49,10 @@ function render() {
 
   let visibleTasks = tasks;
     if (currentFilter !== 'All') {
-      visibleTasks = tasks.filter(t => t.status === currentFilter); // keeps each task whose status text matches the selected filter exactly
+      // Open = not ticked yet, Completed = ticked
+      visibleTasks = currentFilter === 'Open'
+        ? tasks.filter(t => t.status !== 'Done')
+        : tasks.filter(t => t.status === 'Done');
     }
 
     // narrow it down again by priority if one is selected
@@ -60,7 +63,6 @@ function render() {
   // put the remaining tasks in order, using a copy so the original list keeps its order
   visibleTasks = [...visibleTasks].sort((a, b) => {
     if (currentSort === 'priority') return priorityOrder[a.priority] - priorityOrder[b.priority];
-    if (currentSort === 'status') return statusOrder[a.status] - statusOrder[b.status];
     if (currentSort === 'complexity') return complexityOrder[a.complexity] - complexityOrder[b.complexity];
     if (currentSort === 'hours') return b.hours - a.hours;
     return a.due.localeCompare(b.due);   // default: earliest due date first
@@ -91,7 +93,6 @@ function render() {
       </div>
       <div class="task-meta">
         <span class="priority ${task.priority.toLowerCase()}">${task.priority}</span>
-        <span class="status ${task.status.toLowerCase().replace(' ', '-')}">${task.status}</span>
         <span class="complexity" title="Complexity">${capitalise(task.complexity)}</span>
         <span class="hours" title="Estimated hours">${task.hours}h</span>
         <span class="due ${overdue ? 'is-overdue' : ''}">${overdue ? 'Overdue · ' : 'Due '}${formatDate(task.due)}</span>
@@ -206,7 +207,7 @@ document.getElementById('priority_filter').addEventListener('change', event => {
 
 // sort dropdown
 document.getElementById('sort_select').addEventListener('change', event => {
-  currentSort = event.target.value;   // due, priority or status
+  currentSort = event.target.value;   // due, priority, complexity or hours
   render();                           // redraw in the new order
 });
 
