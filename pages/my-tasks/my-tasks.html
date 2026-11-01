@@ -55,6 +55,14 @@
         <option value="High">High</option>
       </select>
 
+      <select id="complexity_select">
+        <option value="1">1 - Very easy</option>
+        <option value="2">2 - Easy</option>
+        <option value="3" selected>3 - Medium</option>
+        <option value="4">4 - Hard</option>
+        <option value="5">5 - Very hard</option>
+      </select>
+      <input type="number" id="hours_input" placeholder="Hours" min="0.5" step="0.5">
       <input type="date" id="due_input">
 
       <button id="adding_task_btn">Add task</button>
@@ -78,7 +86,9 @@
         <select id="sort_select">
           <option value="due" selected>Due date</option>
           <option value="priority">Priority</option>
-          <option value="status">Status</option>
+          \1
+          <option value="complexity">Complexity</option>
+          <option value="hours">Estimated hours</option>
         </select>
       </label>
     </div>

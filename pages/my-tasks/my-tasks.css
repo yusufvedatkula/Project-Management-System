@@ -573,3 +573,34 @@ body {
   font-size: 12px;
   font-weight: 600;
 }
+
+
+/* Complexity and estimated-hours features */
+#complexity_select,
+#hours_input {
+  padding: 10px;
+  border: 1px solid #D8D5CE;
+  border-radius: 8px;
+  background: white;
+  font: inherit;
+}
+
+#hours_input {
+  width: 95px;
+}
+
+.hours {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+  background: #ECEAE5;
+  color: #3F444A;
+}
+
+.dots {
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: #D99A1E;
+  white-space: nowrap;
+}

@@ -9,6 +9,17 @@ let tasks = [
   { id: 6, title: 'Schedule team meeting',                    project: 'Team coordination', priority: 'Medium', status: 'Done',       due: '2026-10-29' }
 ];
 
+const taskEstimates = {
+  1: { hours: 4, complexity: 4 },
+  2: { hours: 3, complexity: 3 },
+  3: { hours: 2, complexity: 2 },
+  4: { hours: 1.5, complexity: 2 },
+  5: { hours: 0.5, complexity: 1 },
+  6: { hours: 1, complexity: 1 }
+};
+
+tasks.forEach(task => Object.assign(task, taskEstimates[task.id]));
+
 // page loads every task
 let currentFilter = 'All';
 // remember which priority is selected (page loads showing every priority)
@@ -27,6 +38,8 @@ const addTaskBtn = document.getElementById('adding_task_btn');
 const prioritySelect = document.getElementById('priority_select');
 const projectSelect = document.getElementById('project_select');
 const dueInput = document.getElementById('due_input');
+const complexitySelect = document.getElementById('complexity_select');
+const hoursInput = document.getElementById('hours_input');
 
 // Wipe the list, then rebuild it from the tasks array
 function render() {
@@ -46,6 +59,8 @@ function render() {
   visibleTasks = [...visibleTasks].sort((a, b) => {
     if (currentSort === 'priority') return priorityOrder[a.priority] - priorityOrder[b.priority];
     if (currentSort === 'status') return statusOrder[a.status] - statusOrder[b.status];
+    if (currentSort === 'complexity') return b.complexity - a.complexity;
+    if (currentSort === 'hours') return b.hours - a.hours;
     return a.due.localeCompare(b.due);   // default: earliest due date first
   });
 
@@ -75,6 +90,8 @@ function render() {
       <div class="task-meta">
         <span class="priority ${task.priority.toLowerCase()}">${task.priority}</span>
         <span class="status ${task.status.toLowerCase().replace(' ', '-')}">${task.status}</span>
+        <span class="hours">${task.hours}h</span>
+        <span class="dots" title="Complexity ${task.complexity}/5">${complexityDots(task.complexity)}</span>
         <span class="due ${overdue ? 'is-overdue' : ''}">${overdue ? 'Overdue · ' : 'Due '}${formatDate(task.due)}</span>
       </div>
       <button class="delete_btn">Delete</button>`;
@@ -87,6 +104,10 @@ function render() {
 }
 
 
+
+function complexityDots(n) {
+  return '●'.repeat(n) + '○'.repeat(5 - n);
+}
 
 // Today's date as 'YYYY-MM-DD', the same format as task.due
 function todayString() {
@@ -145,13 +166,17 @@ function addTask() {
     project: projectSelect.value,       // whichever project the user picked
     priority: prioritySelect.value,
     status: 'To do',
-    due: dueInput.value || todayString() // the picked date, or today if left empty
+    due: dueInput.value || todayString(),
+    hours: Number(hoursInput.value) || 1,
+    complexity: Number(complexitySelect.value) // the picked date, or today if left empty
   });
 
   newTaskInput.value = '';  // box should be cleared
   prioritySelect.value = 'Medium'; // put the dropdown back to the default
   projectSelect.value = 'Personal'; // reset the project too
-  dueInput.value = todayString();   // and the date back to today
+  dueInput.value = todayString();
+  complexitySelect.value = '3';
+  hoursInput.value = '';   // and the date back to today
   render();
 }
 // add task button
