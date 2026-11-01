@@ -37,7 +37,7 @@ body {
   color: white;
   font-weight: 700;
   font-size: 20px;
-  padding-bottom: 24px;
+  padding: 0 8px 24px;   /* same spacing as the logo on the other pages */
 }
 
 .sidebar a {
@@ -504,7 +504,7 @@ body {
 
 
 /* ===== Standard sidebar (same on every page) =====
-   The Knowledge base page also loads this file for its sidebar. */
+*/
 .sidebar {
   flex: 0 0 220px;          /* fixed width, same as the other pages */
   box-sizing: border-box;

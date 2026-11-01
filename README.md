@@ -22,7 +22,7 @@ pages/
     auth.js                    Form validation, demo accounts and session
   my-tasks/
     my-tasks.html
-    my-tasks.css               Also used by the Knowledge Base page
+    my-tasks.css
     my-tasks.js
   team-tasks/
     team-tasks.html

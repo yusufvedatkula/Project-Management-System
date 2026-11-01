@@ -10,14 +10,14 @@
 
   <div class="app">
 
-    <nav class="sidebar">
-      <div class="logo">Make-It-All <span>Hub</span></div>
-      <a href="../home/home.html">Home</a>
+    <!-- Same sidebar as the other pages; user details filled in by shared/session.js -->
+    <nav class="sidebar" aria-label="Main navigation">
+      <div class="logo">Make-It-All Hub</div>
       <a href="../my-tasks/my-tasks.html">My tasks</a>
       <a href="../team-tasks/team-tasks.html">Team tasks</a>
-      <a class="active" href="../knowledge-base/knowledge-base.html">Knowledge base</a>
+      <a class="active" href="knowledge-base.html" aria-current="page">Knowledge Base</a>
+      <a href="../managers-dashboard/managers-dashboard.html">Manager's dashboard</a>
 
-      <!-- Logged-in user, filled in by shared/session.js -->
       <div class="sidebar-user">
         <span class="sidebar-user-name" id="sidebar-user-name"></span>
         <span class="sidebar-user-email" id="sidebar-user-email"></span>
@@ -128,6 +128,7 @@
     </main>
   </div>
 
+  <script src="../shared/session.js"></script>
   <script src="knowledge-base.js"></script>
 </body>
 </html>
