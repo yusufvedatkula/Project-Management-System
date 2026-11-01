@@ -6,7 +6,14 @@ A team project: a simple project management system for Make-It-All staff, built 
 
 Open `index.html` in a browser (or use the VS Code **Live Server** extension). It takes you to the login page.
 
-Demo account: `demo@make-it-all.co.uk` / `password123`
+Demo accounts:
+
+| Role | Email | Password | Can see |
+|---|---|---|---|
+| Employee | `employee@make-it-all.co.uk` | `Employee#1` | My tasks, Knowledge Base |
+| Manager | `manager@make-it-all.co.uk` | `Manager#1` | My tasks, Team tasks, Knowledge Base, Manager's dashboard |
+
+New accounts created through Sign up are always employees. The role is stored with the account (not chosen by the user); in Part 2 an admin will assign the manager role.
 
 ## Folder structure
 
@@ -18,13 +25,11 @@ pages/
   auth/                        Log in and sign up
     login.html
     signup.html
-    auth.css                   Shared by login, signup and home
+    auth.css                   Shared by login and signup
     auth.js                    Form validation, demo accounts and session
-  home/
-    home.html                  Shown after logging in; links to every page
   my-tasks/
     my-tasks.html
-    my-tasks.css               Also used by the Knowledge Base page
+    my-tasks.css
     my-tasks.js
   team-tasks/
     team-tasks.html
@@ -32,25 +37,26 @@ pages/
     team-tasks.js
   knowledge-base/
     knowledge-base.html
+    knowledge-base.css
+    knowledge-base.js
   managers-dashboard/
     managers-dashboard.html
     managers-dashboard.css
     managers-dashboard.js
-  registration/                Staff registration form (work email + password rules)
-    registration.html
-    registration.css
-    registration.js
+  shared/                      Used by several pages
+    session.js                 Checks who is logged in, fills the sidebar, log out
+    sample-team.js             Sample team and assigned tasks (Team tasks + Manager's dashboard)
 ```
 
 ## Page flow
 
-`index.html` → **Log in** / **Sign up** → **Home** → My tasks · Team tasks · Knowledge Base · Manager's dashboard
+`index.html` → **Log in** / **Sign up** → **My tasks** (landing page) · Team tasks · Knowledge Base · Manager's dashboard, all reached from the sidebar
 
 ## Conventions
 
 - File and folder names are lowercase with hyphens: `my-tasks.html`, not `myTasks.html` or `my_tasks.html`.
 - A page's CSS and JS files share the page's name and sit in the same folder.
-- Links between pages are relative, e.g. `../home/home.html`.
+- Links between pages are relative, e.g. `../my-tasks/my-tasks.html`.
 
 ## Contributing
 

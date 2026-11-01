@@ -8,29 +8,27 @@
 </head>
 <body>
 
-    <!-- Dark Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-brand">Make-It-All Hub</div>
-        <nav class="sidebar-nav">
-            <a href="../home/home.html" class="nav-item">Home</a>
-            <a href="../my-tasks/my-tasks.html" class="nav-item">My tasks</a>
-            <a href="../team-tasks/team-tasks.html" class="nav-item active">Team tasks</a>
-            <a href="../knowledge-base/knowledge-base.html" class="nav-item">Knowledge Base</a>
-        </nav>
-        <!-- Logged-in user, filled in by shared/session.js -->
+    <!-- Same sidebar as the other pages; user details filled in by shared/session.js -->
+    <nav class="sidebar" aria-label="Main navigation">
+        <div class="logo">Make-It-All Hub</div>
+        <a href="../my-tasks/my-tasks.html">My tasks</a>
+        <a class="active" href="team-tasks.html" aria-current="page">Team tasks</a>
+        <a href="../knowledge-base/knowledge-base.html">Knowledge Base</a>
+        <a href="../managers-dashboard/managers-dashboard.html">Manager's dashboard</a>
+
         <div class="sidebar-user">
             <span class="sidebar-user-name" id="sidebar-user-name"></span>
             <span class="sidebar-user-email" id="sidebar-user-email"></span>
             <button type="button" class="sidebar-logout" id="logout-btn">Log out</button>
         </div>
-    </aside>
+    </nav>
 
     <!-- Main Content Area -->
     <main class="main-content">
         <header class="content-header">
             <div>
-                <h1>Make-It-All Dashboard</h1>
-                <div class="date-sub">Productivity Management System</div>
+                <h1>Team tasks</h1>
+                <div class="date-sub">Assign project tasks to your team and track who is working on what</div>
             </div>
         </header>
 
@@ -40,15 +38,45 @@
                 <h2>Team/Project Tasks</h2>
                 <div class="form-group">
                     <label for="taskInput">New Task Description:</label>
-                    <input type="text" id="taskInput" placeholder="Enter task details...">
+                    <input type="text" id="taskInput">
                 </div>
                 <div class="form-group">
                     <label for="ownerInput">Assign To Team Member:</label>
-                    <input type="text" id="ownerInput" placeholder="Enter team member name...">
+                    <select id="ownerInput">
+                        <option value="">Choose a team member</option>
+                        <!-- team members are added by team-tasks.js from shared/sample-team.js -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="deadlineInput">Deadline:</label>
+                    <input type="date" id="deadlineInput">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="priorityInput">Priority:</label>
+                        <select id="priorityInput">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="complexityInput">Complexity:</label>
+                        <select id="complexityInput">
+                            <option value="easy">Easy</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="hoursInput">Estimated Time (hours):</label>
+                        <input type="number" id="hoursInput" min="0.25" step="0.25">
+                    </div>
                 </div>
                 <button class="primary" id="addTaskButton">Add Task</button>
 
                 <h3>Current Tasks</h3>
+                <div class="filter-tabs" id="filterTabs"></div>
                 <ul id="taskList">
                     <!-- Dynamically populated by JS -->
                 </ul>
@@ -66,6 +94,7 @@
     </main>
 
     <script src="../shared/session.js"></script>
+    <script src="../shared/sample-team.js"></script>
     <script src="team-tasks.js"></script>
 </body>
 </html>

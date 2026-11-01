@@ -1,5 +1,17 @@
-// store tasks during session
-let tasksList = [];
+// start with the shared sample tasks (shared/sample-team.js), so this page shows
+// the same team and tasks as the Manager's dashboard
+let tasksList = TEAM_TASKS.map(function (task) {
+    return {
+        id: task.id,
+        taskText: task.title,
+        owner: task.owner,
+        deadline: task.deadline,
+        priority: task.priority,
+        complexity: task.complexity,
+        hours: task.hours,
+        completed: task.status === "Done"
+    };
+});
 
 // Get HTML elements
 let taskInput = document.getElementById('taskInput');
@@ -7,6 +19,22 @@ let ownerInput = document.getElementById('ownerInput');
 let addTaskButton = document.getElementById('addTaskButton');
 let taskList = document.getElementById('taskList');
 let workList = document.getElementById('workList');
+let deadlineInput = document.getElementById('deadlineInput');
+let priorityInput = document.getElementById('priorityInput');
+let hoursInput = document.getElementById('hoursInput');
+let complexityInput = document.getElementById('complexityInput');
+let filterTabs = document.getElementById('filterTabs');
+
+// can filter tasks by owner
+let currentFilter = "all";
+
+// fill the "Assign To" dropdown with the team members
+TEAM_MEMBERS.forEach(function (member) {
+    let option = document.createElement('option');
+    option.value = member.name;
+    option.textContent = member.name + " (" + member.role + ")";
+    ownerInput.appendChild(option);
+});
 
 // add new task with custom name
 function addTask() {
@@ -23,6 +51,10 @@ function addTask() {
         id: Date.now(),
         taskText: taskText.trim(),
         owner: owner.trim(),
+        deadline: deadlineInput.value,
+        priority: priorityInput.value,
+        complexity: complexityInput.value,
+        hours: hoursInput.value,
         completed: false
     };
 
@@ -32,6 +64,10 @@ function addTask() {
     // reset input fields
     taskInput.value = "";
     ownerInput.value = "";
+    deadlineInput.value = "";
+    priorityInput.value = "medium";
+    complexityInput.value = "medium";
+    hoursInput.value = "";
 
     loadTasks();
 }
@@ -64,6 +100,43 @@ function loadTasks() {
     taskList.innerHTML = "";
     workList.innerHTML = "";
 
+    // find individual owners with tasks
+    let allOwners = [];
+    for (let i = 0; i < tasksList.length; i++) {
+        if (tasksList[i].completed === false && allOwners.indexOf(tasksList[i].owner) === -1) {
+            allOwners.push(tasksList[i].owner);
+        }
+    }
+
+    // return to all if no tasks left
+    if (currentFilter !== "all" && allOwners.indexOf(currentFilter) === -1) {
+        currentFilter = "all";
+    }
+
+    // making tabs to filter tasks by owner
+    filterTabs.innerHTML = "";
+    let tabNames = ["all"].concat(allOwners);
+    for (let i = 0; i < tabNames.length; i++) {
+        let tabName = tabNames[i];
+        let tabButton = document.createElement('button');
+        
+        if (tabName === "all") {
+            tabButton.textContent = "All";
+        } else {
+            tabButton.textContent = tabName;
+        }
+
+        if (tabName === currentFilter) {
+            tabButton.className = "active";
+        }
+
+        tabButton.onclick = function() {
+            currentFilter = tabName;
+            loadTasks();
+        };
+        filterTabs.appendChild(tabButton);
+    }
+
     // if no tasks for any employees
     if (tasksList.length === 0) {
         taskList.innerHTML = '<li class="empty-state">No tasks created yet!</li>';
@@ -83,13 +156,37 @@ function loadTasks() {
                 workCount[task.owner] = 1;
             }
         }
+
+        // only show filtered tasks
+        if (currentFilter !== "all" && task.owner !== currentFilter) {
+            continue;
+        }
+
         let list = document.createElement('li');
         let span = document.createElement('span');
-        span.textContent = task.taskText + " [Owner: " + task.owner + "]";
+        let text = task.taskText + " [Owner: " + task.owner + "]";
+
+        text += " [Priority: " + task.priority + "]";
+        text += " [Complexity: " + task.complexity + "]";
+
+        if (task.hours) {
+            text += " [Est: " + task.hours + "hrs]";
+        }
+
+        if (task.deadline) {
+            text += " (due " + task.deadline + ")";
+        }
+        span.textContent = text;
 
         if (task.completed === true) {
             span.className = "completed";
         }
+
+        // flags a task if it is overdue
+        if (task.deadline && !task.completed && new Date(task.deadline) < new Date().setHours(0, 0, 0, 0)) {
+            span.classList.add("overdue");
+        }
+
         list.appendChild(span);
 
         let actionsDiv = document.createElement('div');

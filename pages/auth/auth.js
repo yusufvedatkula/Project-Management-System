@@ -12,18 +12,31 @@ const SESSION_KEY = 'demoSession'
 // Only staff emails can sign up (see getSignupFormErrors)
 const COMPANY_DOMAIN = '@make-it-all.co.uk'
 
-const DEMO_USER = { firstname: 'Demo', email: 'demo' + COMPANY_DOMAIN, password: 'password123' }
+// Every account has a role: 'employee' or 'manager'.
+// The role is stored with the account, never chosen by the user, so nobody can make
+// themselves a manager. Sign up always creates an employee. For this prototype the
+// manager account is pre-set; in Part 2 an admin will assign the manager role.
+const DEMO_USERS = [
+  { firstname: 'Sam',  email: 'employee' + COMPANY_DOMAIN, password: 'Employee#1', role: 'employee' },
+  { firstname: 'Alex', email: 'manager'  + COMPANY_DOMAIN, password: 'Manager#1',  role: 'manager' }
+]
+
+// Demo accounts from older versions of the prototype, removed if a browser still has them
+const OLD_DEMO_EMAILS = ['demo@example.com', 'demo@make-it-all.com', 'demo' + COMPANY_DOMAIN]
 
 function getUsers(){
   let users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]')
 
-  // Browsers that used older versions still have the old demo accounts saved, so remove them
-  users = users.filter(u => u.email !== 'demo@example.com' && u.email !== 'demo@make-it-all.com')
+  users = users.filter(u => !OLD_DEMO_EMAILS.includes(u.email))
 
-  // Make sure the demo account always exists, not just on the very first visit
-  if(!users.some(u => u.email === DEMO_USER.email)){
-    users.unshift(DEMO_USER)
-  }
+  // accounts created before roles existed become employees
+  users.forEach(u => { if(!u.role) u.role = 'employee' })
+
+  // make sure both demo accounts always exist, with their correct details
+  DEMO_USERS.forEach(demo => {
+    users = users.filter(u => u.email !== demo.email)
+    users.unshift(demo)
+  })
 
   localStorage.setItem(USERS_KEY, JSON.stringify(users))
   return users
@@ -36,8 +49,9 @@ function saveUser(user){
 }
 
 function startSession(user){
-  localStorage.setItem(SESSION_KEY, JSON.stringify({ firstname: user.firstname, email: user.email }))
-  window.location.href = '../home/home.html'
+  // the role goes into the session, so every page knows what this user may see
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ firstname: user.firstname, email: user.email, role: user.role }))
+  window.location.href = '../my-tasks/my-tasks.html'   // land on My tasks after logging in
 }
 
 // ---- Form handling ----
@@ -63,7 +77,8 @@ form.addEventListener('submit', (e) => {
       showError('An account with this email already exists', [email_input])
       return
     }
-    const user = { firstname: firstname_input.value.trim(), email, password }
+    // new accounts are always employees; managers are set up separately
+    const user = { firstname: firstname_input.value.trim(), email, password, role: 'employee' }
     saveUser(user)
     startSession(user)
   } else {

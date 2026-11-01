@@ -8,88 +8,81 @@ body {
     box-sizing: border-box;
 }
 
-/* Dark Sidebar Styling: same colours and sizes as the My tasks sidebar */
+/* Sidebar: same look as the Manager's dashboard and My tasks */
 .sidebar {
-    width: 220px;
-    flex-shrink: 0;                /* never squash the sidebar */
+    flex: 0 0 220px;
     box-sizing: border-box;
-    background-color: #1F2328;
-    font-family: sans-serif;
-    display: flex;
-    flex-direction: column;
-    padding: 24px 16px;
-    height: 100vh;
-    position: sticky;              /* stays in place while the tasks scroll */
+    position: sticky;
     top: 0;
-}
-
-.sidebar-brand {
-    font-size: 20px;
-    font-weight: 700;
-    color: #ffffff;
-    padding-bottom: 24px;
-}
-
-.sidebar-nav {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    height: 100vh;
+    padding: 24px 16px;
+    background: #1f2328;
 }
 
-.nav-item {
-    color: #D6D3CC;
-    text-decoration: none;
+.logo {
+    padding: 0 8px 24px;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.sidebar a {
     padding: 12px;
     border-radius: 8px;
+    color: #d6d3cc;
+    text-decoration: none;
 }
 
-.nav-item:hover {
-    background-color: #3A4048;
+.sidebar a:hover,
+.sidebar a.active {
+    background: #3a4048;
     color: #ffffff;
 }
 
-.nav-item.active {
-    background-color: #3A4048;
-    color: #ffffff;
+.sidebar a.active {
     font-weight: 600;
 }
 
-/* Logged-in user at the bottom of the sidebar */
+/* logged-in user at the bottom of the sidebar */
 .sidebar-user {
-    margin-top: auto;              /* pushes this block to the bottom of the sidebar */
-    padding: 16px 12px 0;
-    border-top: 1px solid #3A4048;
     display: flex;
     flex-direction: column;
     gap: 4px;
+    margin-top: auto;
+    padding: 16px 12px 0;
+    border-top: 1px solid #3a4048;
 }
 
 .sidebar-user-name {
     color: #ffffff;
-    font-weight: 600;
     font-size: 14px;
+    font-weight: 600;
 }
 
 .sidebar-user-email {
-    color: #B5B1A9;
+    overflow-wrap: anywhere;
+    color: #b5b1a9;
     font-size: 13px;
-    overflow-wrap: anywhere;       /* long emails wrap instead of overflowing */
 }
 
-/* a button styled to look like a link */
 .sidebar-logout {
     align-self: flex-start;
     margin-top: 8px;
     padding: 0;
-    background: none;
     border: 0;
-    color: #F2B33D;
+    background: none;
+    color: #f2b33d;
     font: inherit;
     font-size: 14px;
     cursor: pointer;
 }
 
-.sidebar-logout:hover { text-decoration: underline; }
+.sidebar-logout:hover {
+    text-decoration: underline;
+}
 
 /* Main Content Area */
 .main-content {
@@ -175,6 +168,18 @@ body {
     box-shadow: 0 0 0 3px rgba(246, 173, 85, 0.15);
 }
 
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+    background: #ffffff;
+    transition: border-color 0.2s;
+}
+
 /* Gold/Amber Primary Button */
 button.primary {
     background-color: #f6ad55;
@@ -225,6 +230,11 @@ ul li {
     color: #a0aec0;
 }
 
+.overdue {
+    color: #c0392b;
+    font-weight: 600;
+}
+
 .task-actions {
     display: flex;
     gap: 8px;
@@ -246,6 +256,35 @@ ul li {
     border-color: #a0aec0;
 }
 
+.filter-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.filter-tabs button {
+    padding: 6px 14px;
+    font-size: 13px;
+    border: 1px solid #cbd5e0;
+    border-radius: 16px;
+    background: #ffffff;
+    color: #4a5568;
+    cursor: pointer;
+}
+
+.filter-tabs button:hover {
+    background: #edf2f7;
+}
+
+.filter-tabs button.active {
+    background: #f6ad55;
+    border-color: #f6ad55;
+    color: #1a202c;
+    font-weight: 600;
+}
+
+
 /* Phones and small screens: the sidebar becomes a bar across the top */
 @media (max-width: 860px) {
     body {
@@ -262,4 +301,16 @@ ul li {
     .main-content {
         padding: 24px 16px;
     }
+}
+
+/* "Employee account" / "Manager account" under the user's email (added by shared/session.js) */
+.sidebar-user-role {
+  align-self: flex-start;
+  margin-top: 2px;
+  padding: 2px 9px;
+  border-radius: 10px;
+  background: #3A4048;
+  color: #F6F5F2;
+  font-size: 12px;
+  font-weight: 600;
 }
