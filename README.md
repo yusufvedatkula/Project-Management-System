@@ -6,7 +6,14 @@ A team project: a simple project management system for Make-It-All staff, built 
 
 Open `index.html` in a browser (or use the VS Code **Live Server** extension). It takes you to the login page.
 
-Demo account: `demo@make-it-all.co.uk` / `password123`
+Demo accounts:
+
+| Role | Email | Password | Can see |
+|---|---|---|---|
+| Employee | `employee@make-it-all.co.uk` | `Employee#1` | My tasks, Knowledge Base |
+| Manager | `manager@make-it-all.co.uk` | `Manager#1` | My tasks, Team tasks, Knowledge Base, Manager's dashboard |
+
+New accounts created through Sign up are always employees. The role is stored with the account (not chosen by the user); in Part 2 an admin will assign the manager role.
 
 ## Folder structure
 

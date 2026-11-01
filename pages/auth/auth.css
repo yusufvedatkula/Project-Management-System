@@ -224,3 +224,7 @@ a:hover { text-decoration: none; }
   .brand-copy, .brand-foot { display: none; }
   .wrapper { padding: 32px 20px; }
 }
+
+/* second demo account row on the login page */
+.demo-row + .demo-row { margin-top: 8px; }
+.demo-row-manager { background-color: var(--demo-row); }

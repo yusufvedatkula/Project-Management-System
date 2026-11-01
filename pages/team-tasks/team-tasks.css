@@ -302,3 +302,15 @@ ul li {
         padding: 24px 16px;
     }
 }
+
+/* "Employee account" / "Manager account" under the user's email (added by shared/session.js) */
+.sidebar-user-role {
+  align-self: flex-start;
+  margin-top: 2px;
+  padding: 2px 9px;
+  border-radius: 10px;
+  background: #3A4048;
+  color: #F6F5F2;
+  font-size: 12px;
+  font-weight: 600;
+}
