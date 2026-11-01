@@ -25,6 +25,8 @@ tasks.forEach(task => Object.assign(task, taskEstimates[task.id]));
 let currentFilter = 'All';
 // remember which priority is selected (page loads showing every priority)
 let currentPriority = 'All';
+// remember which complexity is selected (page loads showing every complexity)
+let currentComplexity = 'All';
 // remember how the list is sorted (the page loads sorted by due date)
 let currentSort = 'due';
 
@@ -58,6 +60,11 @@ function render() {
     // narrow it down again by priority if one is selected
     if (currentPriority !== 'All') {
     visibleTasks = visibleTasks.filter(t => t.priority === currentPriority);
+  }
+
+  // and again by complexity if one is selected
+  if (currentComplexity !== 'All') {
+    visibleTasks = visibleTasks.filter(t => t.complexity === currentComplexity);
   }
 
   // put the remaining tasks in order, using a copy so the original list keeps its order
@@ -197,6 +204,12 @@ document.querySelectorAll('.filter_btn').forEach(btn => {
 
     render();  // redraw with that filter
   });
+});
+
+// complexity dropdown
+document.getElementById('complexity_filter').addEventListener('change', event => {
+  currentComplexity = event.target.value;   // easy, medium, hard or All
+  render();                                 // redraw with that complexity
 });
 
 // priority dropdown
