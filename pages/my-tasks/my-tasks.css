@@ -598,9 +598,75 @@ body {
   color: #3F444A;
 }
 
-.dots {
+/* complexity tag: outlined so it is not confused with the coloured priority tag */
+.complexity {
   font-size: 13px;
-  letter-spacing: 2px;
-  color: #D99A1E;
-  white-space: nowrap;
+  font-weight: 600;
+  padding: 2px 9px;
+  border: 1px solid #D6D3CC;
+  border-radius: 12px;
+  background: white;
+  color: #3F444A;
+}
+
+/* ---- Add-task bar: a small label above each box ---- */
+.adding_task {
+  align-items: flex-end;    /* line the boxes and the button up along the bottom */
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #5B6168;
+}
+
+.field-grow {
+  flex: 1 1 150px;          /* the Task box takes the spare space */
+}
+
+.field-grow #newTask_input {
+  flex: none;               /* undo the older row rule, which made the box tall inside the label */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Complexity and hours look the same as the Project and Priority boxes */
+#complexity_select,
+#hours_input {
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--ink);
+  background-color: white;
+  border: 1px solid #D6D3CC;
+  border-radius: 8px;
+}
+
+#complexity_select {
+  padding-right: 36px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%233F444A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+#hours_input {
+  width: 110px;
+  box-sizing: border-box;
+}
+
+/* every box and the button exactly the same height, so they line up */
+.adding_task input,
+.adding_task select,
+.adding_task button {
+  height: 40px;
+  box-sizing: border-box;
 }
