@@ -1,12 +1,12 @@
 // The "notebook": our list of tasks.
 // No database yet, so the data lives here. In Part 2 it will come from the database.
 let tasks = [
-  { id: 1, title: 'Fix session timeout on client login page', project: 'Client portal v2', priority: 'High',   status: 'In progress', due: '2026-10-09' },
-  { id: 2, title: 'Update printer drivers on 2nd-floor PCs',  project: 'Office IT refresh', priority: 'High',   status: 'In progress', due: '2026-10-14' },
-  { id: 3, title: 'Draft onboarding checklist',               project: 'HR onboarding',     priority: 'Medium', status: 'To do',       due: '2026-10-16' },
-  { id: 4, title: 'Write knowledge base post on VPN setup',   project: 'Office IT refresh', priority: 'Low',    status: 'To do',       due: '2026-10-20' },
-  { id: 5, title: 'Order printing paper for Finance',         project: 'Personal',          priority: 'Low',    status: 'Done',        due: '2026-10-08' },
-  { id: 6, title: 'Schedule team meeting',                    project: 'Team coordination', priority: 'Medium', status: 'Done',       due: '2026-10-25' }
+  { id: 1, title: 'Fix session timeout on client login page', project: 'Client portal v2', priority: 'High',   status: 'In progress', due: '2026-10-09', hours: 4, complexity: 4},
+  { id: 2, title: 'Update printer drivers on 2nd-floor PCs',  project: 'Office IT refresh', priority: 'High',   status: 'In progress', due: '2026-10-14', hours: 3, complexity: 3},
+  { id: 3, title: 'Draft onboarding checklist',               project: 'HR onboarding',     priority: 'Medium', status: 'To do',       due: '2026-10-16', hours: 2, complexity: 2},
+  { id: 4, title: 'Write knowledge base post on VPN setup',   project: 'Office IT refresh', priority: 'Low',    status: 'To do',       due: '2026-10-20', hours: 1.5, complexity: 2},
+  { id: 5, title: 'Order printing paper for Finance',         project: 'Personal',          priority: 'Low',    status: 'Done',        due: '2026-10-08', hours: 0.5, complexity: 1},
+  { id: 6, title: 'Schedule team meeting',                    project: 'Team coordination', priority: 'Medium', status: 'Done',       due: '2026-10-25', hours: 1, complexity: 1}
 ];
 
 // page loads every task
@@ -27,6 +27,8 @@ const addTaskBtn = document.getElementById('adding_task_btn');
 const prioritySelect = document.getElementById('priority_select');
 const projectSelect = document.getElementById('project_select');
 const dueInput = document.getElementById('due_input');
+const complexitySelect = document.getElementById('complexity_select');
+const hoursInput = document.getElementById('hours_input');
 
 // Wipe the list, then rebuild it from the tasks array
 function render() {
@@ -46,6 +48,8 @@ function render() {
   visibleTasks = [...visibleTasks].sort((a, b) => {
     if (currentSort === 'priority') return priorityOrder[a.priority] - priorityOrder[b.priority];
     if (currentSort === 'status') return statusOrder[a.status] - statusOrder[b.status];
+    if (currentSort === 'complexity') return b.complexity - a.complexity;   // hardest first
+    if (currentSort === 'hours') return b.hours - a.hours;
     return a.due.localeCompare(b.due);   // default: earliest due date first
   });
 
@@ -73,6 +77,8 @@ function render() {
         <small>${task.project}</small>
       </div>
       <div class="task-meta">
+        <span class="hours">${task.hours}h</span>
+        <span class="dots" title="Complexity ${task.complexity} of 5">${complexityDots(task.complexity)}</span>
         <span class="priority ${task.priority.toLowerCase()}">${task.priority}</span>
         <span class="status ${task.status.toLowerCase().replace(' ', '-')}">${task.status}</span>
         <span class="due ${overdue ? 'is-overdue' : ''}">${overdue ? 'Overdue · ' : 'Due '}${formatDate(task.due)}</span>
@@ -98,9 +104,14 @@ function isOverdue(task) {
   return task.status !== 'Done' && task.due < todayString();
 }
 
-// Turn '2026-10-09' into '9 Oct' for display
+// date display
 function formatDate(iso) {
   return new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
+
+// rating display
+function complexityDots(n) {
+  return '●'.repeat(n) + '○'.repeat(5 - n);
 }
 
 // Count the tasks and put the numbers on the page
@@ -145,13 +156,17 @@ function addTask() {
     project: projectSelect.value,       // whichever project the user picked
     priority: prioritySelect.value,
     status: 'To do',
-    due: dueInput.value || todayString() // the picked date, or today if left empty
+    due: dueInput.value || todayString(), // the picked date, or today if left empty
+    hours: Number(hoursInput.value) || 1, // typed hours as a number, or 1 if empty
+    complexity: Number(complexitySelect.value)
   });
 
   newTaskInput.value = '';  // box should be cleared
   prioritySelect.value = 'Medium'; // put the dropdown back to the default
   projectSelect.value = 'Personal'; // reset the project too
   dueInput.value = todayString();   // and the date back to today
+  complexitySelect.value = '3';   // default rating
+  hoursInput.value = '';          // clear hours box
   render();
 }
 // add task button
