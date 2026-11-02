@@ -1,33 +1,39 @@
 // initial task data
 
 let tasks = [
-  { id: 1, title: 'Fix session timeout on client login page', project: 'Client portal v2', priority: 'High',   status: 'In progress', due: '2026-10-30' },
-  { id: 2, title: 'Update printer drivers on 2nd-floor PCs',  project: 'Office IT refresh', priority: 'High',   status: 'In progress', due: '2026-11-06' },
+  { id: 1, title: 'Fix session timeout on client login page', project: 'Client portal v2', priority: 'High',   status: 'To do',       due: '2026-10-30' },
+  { id: 2, title: 'Update printer drivers on 2nd-floor PCs',  project: 'Office IT refresh', priority: 'High',   status: 'To do',       due: '2026-11-06' },
   { id: 3, title: 'Draft onboarding checklist',               project: 'HR onboarding',     priority: 'Medium', status: 'To do',       due: '2026-11-10' },
   { id: 4, title: 'Write knowledge base post on VPN setup',   project: 'Office IT refresh', priority: 'Low',    status: 'To do',       due: '2026-11-13' },
   { id: 5, title: 'Order printing paper for Finance',         project: 'Personal',          priority: 'Low',    status: 'Done',        due: '2026-10-28' },
   { id: 6, title: 'Schedule team meeting',                    project: 'Team coordination', priority: 'Medium', status: 'Done',       due: '2026-10-29' }
 ];
 
+// complexity uses the same three levels as Team tasks and the Manager's dashboard
 const taskEstimates = {
-  1: { hours: 4, complexity: 4 },
-  2: { hours: 3, complexity: 3 },
-  3: { hours: 2, complexity: 2 },
-  4: { hours: 1.5, complexity: 2 },
-  5: { hours: 0.5, complexity: 1 },
-  6: { hours: 1, complexity: 1 }
+  1: { hours: 4,   complexity: 'hard' },
+  2: { hours: 3,   complexity: 'medium' },
+  3: { hours: 2,   complexity: 'easy' },
+  4: { hours: 1.5, complexity: 'easy' },
+  5: { hours: 0.5, complexity: 'easy' },
+  6: { hours: 1,   complexity: 'easy' }
 };
 
 tasks.forEach(task => Object.assign(task, taskEstimates[task.id]));
 
 let currentFilter = 'All';
 let currentPriority = 'All';
-// default sort is by due date
+
+// remember which complexity is selected
+let currentComplexity = 'All';
+
+// remember how the list is sorted
 let currentSort = 'due';
 
-// sort order for priority and status
+// the order to use when sorting by priority
+
 const priorityOrder = { High: 1, Medium: 2, Low: 3 };
-const statusOrder = { 'To do': 1, 'In progress': 2, 'Done': 3 };
+const complexityOrder = { hard: 1, medium: 2, easy: 3 };   // hardest first
 
 const list = document.getElementById('task-list');
 const newTaskInput = document.getElementById('newTask_input');
@@ -44,7 +50,10 @@ function render() {
 
   let visibleTasks = tasks;
     if (currentFilter !== 'All') {
-      visibleTasks = tasks.filter(t => t.status === currentFilter); // keeps each task whose status text matches the selected filter exactly
+      // Open = not ticked yet, Completed = ticked
+      visibleTasks = currentFilter === 'Open'
+        ? tasks.filter(t => t.status !== 'Done')
+        : tasks.filter(t => t.status === 'Done');
     }
 
     // narrow it down again by priority if one is selected
@@ -52,11 +61,15 @@ function render() {
     visibleTasks = visibleTasks.filter(t => t.priority === currentPriority);
   }
 
+  // and again by complexity if one is selected
+  if (currentComplexity !== 'All') {
+    visibleTasks = visibleTasks.filter(t => t.complexity === currentComplexity);
+  }
+
   // put the remaining tasks in order, using a copy so the original list keeps its order
   visibleTasks = [...visibleTasks].sort((a, b) => {
     if (currentSort === 'priority') return priorityOrder[a.priority] - priorityOrder[b.priority];
-    if (currentSort === 'status') return statusOrder[a.status] - statusOrder[b.status];
-    if (currentSort === 'complexity') return b.complexity - a.complexity;
+    if (currentSort === 'complexity') return complexityOrder[a.complexity] - complexityOrder[b.complexity];
     if (currentSort === 'hours') return b.hours - a.hours;
     return a.due.localeCompare(b.due);   // default: earliest due date first
   });
@@ -86,9 +99,8 @@ function render() {
       </div>
       <div class="task-meta">
         <span class="priority ${task.priority.toLowerCase()}">${task.priority}</span>
-        <span class="status ${task.status.toLowerCase().replace(' ', '-')}">${task.status}</span>
-        <span class="hours">${task.hours}h</span>
-        <span class="dots" title="Complexity ${task.complexity}/5">${complexityDots(task.complexity)}</span>
+        <span class="complexity" title="Complexity">${capitalise(task.complexity)}</span>
+        <span class="hours" title="Estimated hours">${task.hours}h</span>
         <span class="due ${overdue ? 'is-overdue' : ''}">${overdue ? 'Overdue · ' : 'Due '}${formatDate(task.due)}</span>
       </div>
       <button class="delete_btn">Delete</button>`;
@@ -102,8 +114,9 @@ function render() {
 
 
 
-function complexityDots(n) {
-  return '●'.repeat(n) + '○'.repeat(5 - n);
+// 'medium' -> 'Medium'
+function capitalise(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
 // return today's date in YYYY-MM-DD format
@@ -165,14 +178,14 @@ function addTask() {
     status: 'To do',
     due: dueInput.value || todayString(),
     hours: Number(hoursInput.value) || 1,
-    complexity: Number(complexitySelect.value) // the picked date, or today if left empty
+    complexity: complexitySelect.value   // easy, medium or hard
   });
 
   newTaskInput.value = ''; 
   prioritySelect.value = 'Medium'; // put the dropdown back to the default
   projectSelect.value = 'Personal'; // reset the project too
   dueInput.value = todayString();
-  complexitySelect.value = '3';
+  complexitySelect.value = 'medium';
   hoursInput.value = '';   // and the date back to today
   render();
 }
@@ -192,6 +205,12 @@ document.querySelectorAll('.filter_btn').forEach(btn => {
   });
 });
 
+// complexity dropdown
+document.getElementById('complexity_filter').addEventListener('change', event => {
+  currentComplexity = event.target.value;   // easy, medium, hard or All
+  render();                                 // redraw with that complexity
+});
+
 // priority dropdown
 document.getElementById('priority_filter').addEventListener('change', event => {
   currentPriority = event.target.value;   // read the option the user picked
@@ -200,7 +219,7 @@ document.getElementById('priority_filter').addEventListener('change', event => {
 
 // sort dropdown
 document.getElementById('sort_select').addEventListener('change', event => {
-  currentSort = event.target.value;   // due, priority or status
+  currentSort = event.target.value;   // due, priority, complexity or hours
   render();                           // redraw in the new order
 });
 

@@ -83,6 +83,7 @@ function renderMeta() {
     kbMeta.textContent = topics.length + ' topics \u00b7 ' + posts.length + ' posts';
 }
 
+// Renders the topic filters and topic cards, highlighting the active topic
 function renderTopics() {
     renderMeta();
 
@@ -107,6 +108,7 @@ function renderTopics() {
         return;
     }
 
+    // Create a card for each topic, showing the number of posts in that topic
     topics.forEach(topic => {
         const card = document.createElement('button');
         card.type = 'button';
@@ -194,6 +196,7 @@ function renderPosts() {
     });
 }
 
+// Opens the view post card for the selected post, and renders its comments
 function openPost(index) {
     activePostIndex = index;
     const post = posts[index];
@@ -207,6 +210,7 @@ function openPost(index) {
     viewPostModal.hidden = false;
 }
 
+// Renders the comments for the currently active post
 function renderComments() {
     commentsContainer.innerHTML = '';
     const post = posts[activePostIndex];
