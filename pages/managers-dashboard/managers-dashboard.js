@@ -39,11 +39,12 @@ function reassignTask(taskId, newOwner) {
   renderDashboard();
 }
 
+// Dashboard data and page elements
 const manager = { employees: [] };
-
 const employeeGrid = document.getElementById("employee-grid");
 const projectList = document.getElementById("project-list");
 
+// Sample project deadlines and delivery statuses
 const projectDetails = {
   "Project Portal": { deadline: "14 Nov", status: "At risk" },
   "Staff Tools": { deadline: "21 Nov", status: "On track" },
@@ -51,6 +52,7 @@ const projectDetails = {
   "Network upgrade": { deadline: "28 Oct", status: "Late" }
 };
 
+// Create an HTML element and optionally set its class and text
 function makeElement(tagName, className, text) {
   const element = document.createElement(tagName);
 
@@ -64,92 +66,96 @@ function makeElement(tagName, className, text) {
 
   return element;
 }
-  
-  // total estimated hours of an employee's unfinished tasks
-  function getActiveHours(employee) {
-    return employee.tasks
-      .filter(function (task) { return task.status !== "Done"; })
-      .reduce(function (total, task) { return total + task.hours; }, 0);
+
+// Calculate unfinished estimated work hours for an employee
+function getActiveHours(employee) {
+  return employee.tasks
+    .filter(function (task) { return task.status !== "Done"; })
+    .reduce(function (total, task) { return total + task.hours; }, 0);
+}
+
+// Capitalise the first letter of a word
+function capitalise(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
+// Create a dropdown to reassign a task to another team member
+function makeReassignSelect(task) {
+  const select = makeElement("select", "reassign-select");
+  select.setAttribute("aria-label", "Reassign " + task.title);
+
+  TEAM_MEMBERS.forEach(function (member) {
+    const option = makeElement("option", "", member.name);
+    option.value = member.name;
+    option.selected = member.name === task.owner;
+    select.appendChild(option);
+  });
+
+  select.addEventListener("change", function () {
+    reassignTask(task.id, select.value);
+  });
+  return select;
+}
+
+// Count an employee's tasks that are not done
+function getActiveTaskCount(employee) {
+  return employee.tasks.filter(function (task) {
+    return task.status !== "Done";
+  }).length;
+}
+
+// Build an employee card with workload and task details
+function renderEmployee(employee) {
+  const card = makeElement("article", "employee-card");
+  const header = makeElement("div", "employee-header");
+  const details = document.createElement("div");
+  const name = makeElement("h3", "", employee.name);
+  const role = makeElement("p", "employee-role", employee.role);
+  const activeCount = getActiveTaskCount(employee);
+  const activeHours = getActiveHours(employee);
+  const overloaded = activeHours > OVERLOAD_HOURS;
+  let workloadText = (activeCount === 1 ? "1 active task" : activeCount + " active tasks") + " · " + activeHours + "h";
+  if (overloaded) {
+    workloadText += " · Overloaded";
   }
+  const workload = makeElement("span", overloaded ? "workload overloaded" : "workload", workloadText);
 
-  function capitalise(word) {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  }
+  details.append(name, role);
+  header.append(details, workload);
+  card.appendChild(header);
 
-  // dropdown that lets the manager move a task to someone else
-  function makeReassignSelect(task) {
-    const select = makeElement("select", "reassign-select");
-    select.setAttribute("aria-label", "Reassign " + task.title);
+  const taskList = makeElement("ul", "task-list");
 
-    TEAM_MEMBERS.forEach(function (member) {
-      const option = makeElement("option", "", member.name);
-      option.value = member.name;
-      option.selected = member.name === task.owner;
-      select.appendChild(option);
-    });
+  employee.tasks.forEach(function (task) {
+    const row = makeElement("li", "task-row");
+    const main = makeElement("div", "task-main");
+    const title = makeElement("span", "task-title", task.title);
 
-    select.addEventListener("change", function () {
-      reassignTask(task.id, select.value);
-    });
-    return select;
-  }
+    // priority · complexity · hours · deadline
+    const detailText = capitalise(task.priority) + " priority · " + capitalise(task.complexity) +
+      " · " + task.hours + "h · due " + niceDate(task.deadline);
+    const meta = makeElement("span", task.overdue ? "task-meta overdue" : "task-meta",
+      task.overdue ? detailText + " · Overdue" : detailText);
+    main.append(title, meta);
 
-  function getActiveTaskCount(employee) {
-    return employee.tasks.filter(function (task) {
-      return task.status !== "Done";
-    }).length;
-  }
-  
-  function renderEmployee(employee) {
-    const card = makeElement("article", "employee-card");
-    const header = makeElement("div", "employee-header");
-    const details = document.createElement("div");
-    const name = makeElement("h3", "", employee.name);
-    const role = makeElement("p", "employee-role", employee.role);
-    const activeCount = getActiveTaskCount(employee);
-    const activeHours = getActiveHours(employee);
-    const overloaded = activeHours > OVERLOAD_HOURS;
-    let workloadText = (activeCount === 1 ? "1 active task" : activeCount + " active tasks") + " · " + activeHours + "h";
-    if (overloaded) {
-      workloadText += " · Overloaded";
+    const side = makeElement("div", "task-side");
+    const statusClass = task.status.toLowerCase().replace(" ", "-");
+    side.appendChild(makeElement("span", "task-status " + statusClass, task.status));
+
+    // unfinished tasks can be moved to another team member
+    if (task.status !== "Done") {
+      side.appendChild(makeReassignSelect(task));
     }
-    const workload = makeElement("span", overloaded ? "workload overloaded" : "workload", workloadText);
-  
-    details.append(name, role);
-    header.append(details, workload);
-    card.appendChild(header);
-  
-    const taskList = makeElement("ul", "task-list");
-  
-    employee.tasks.forEach(function (task) {
-      const row = makeElement("li", "task-row");
-      const main = makeElement("div", "task-main");
-      const title = makeElement("span", "task-title", task.title);
 
-      // priority · complexity · hours · deadline
-      const detailText = capitalise(task.priority) + " priority · " + capitalise(task.complexity) +
-        " · " + task.hours + "h · due " + niceDate(task.deadline);
-      const meta = makeElement("span", task.overdue ? "task-meta overdue" : "task-meta",
-        task.overdue ? detailText + " · Overdue" : detailText);
-      main.append(title, meta);
+    row.append(main, side);
+    taskList.appendChild(row);
+  });
 
-      const side = makeElement("div", "task-side");
-      const statusClass = task.status.toLowerCase().replace(" ", "-");
-      side.appendChild(makeElement("span", "task-status " + statusClass, task.status));
+  card.appendChild(taskList);
+  return card;
+}
 
-      // unfinished tasks can be moved to another team member
-      if (task.status !== "Done") {
-        side.appendChild(makeReassignSelect(task));
-      }
-
-      row.append(main, side);
-      taskList.appendChild(row);
-    });
-  
-    card.appendChild(taskList);
-    return card;
-  }
-  
+// Group tasks by project and calculate completion and overdue totals
 function renderProjects(employees) {
   const projects = {};
 
@@ -171,6 +177,7 @@ function renderProjects(employees) {
     });
   });
 
+  // Create the project progress table
   projectList.replaceChildren();
   const projectNames = Object.keys(projects);
   const tableWrap = makeElement("div", "project-table-wrap");
@@ -186,6 +193,7 @@ function renderProjects(employees) {
   table.appendChild(tableHead);
   const tableBody = document.createElement("tbody");
 
+  // Add each project's progress row and expandable task list
   projectNames.forEach(function (projectName) {
     const project = projects[projectName];
     const details = projectDetails[projectName] || { deadline: "Not set", status: "On track" };
@@ -247,6 +255,7 @@ function renderProjects(employees) {
     tableBody.appendChild(row);
   });
 
+  // Show a message when no project tasks are available
   if (projectNames.length === 0) {
     const emptyRow = document.createElement("tr");
     const emptyCell = makeElement("td", "empty-state", "No project tasks to show yet.");
@@ -261,7 +270,8 @@ function renderProjects(employees) {
 
   return projectNames.length;
 }
-  
+
+// Update the summary counts, employee cards and project table
 function renderDashboard() {
   manager.employees = buildEmployees();   // rebuild from the shared tasks (picks up reassignments)
   employeeGrid.replaceChildren();
