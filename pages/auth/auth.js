@@ -17,8 +17,8 @@ const COMPANY_DOMAIN = '@make-it-all.co.uk'
 // themselves a manager. Sign up always creates an employee. For this prototype the
 // manager account is pre-set; in Part 2 an admin will assign the manager role.
 const DEMO_USERS = [
-  { firstname: 'Sam',  email: 'employee' + COMPANY_DOMAIN, password: 'Employee#1', role: 'employee' },
-  { firstname: 'Alex', email: 'manager'  + COMPANY_DOMAIN, password: 'Manager#1',  role: 'manager' }
+  { firstname: 'Sam',  email: 'employee' + COMPANY_DOMAIN, password: 'Employee1', role: 'employee' },
+  { firstname: 'Alex', email: 'manager'  + COMPANY_DOMAIN, password: 'Manager1',  role: 'manager' }
 ]
 
 // Demo accounts from older versions of the prototype, removed if a browser still has them
@@ -77,7 +77,7 @@ form.addEventListener('submit', (e) => {
       showError('An account with this email already exists', [email_input])
       return
     }
-    // new accounts are always employees; managers are set up separately
+    // new accounts are always employees; managers are set up separately via the admin interface which is not part of this prototype
     const user = { firstname: firstname_input.value.trim(), email, password, role: 'employee' }
     saveUser(user)
     startSession(user)
@@ -91,11 +91,13 @@ form.addEventListener('submit', (e) => {
   }
 })
 
+// ---- Form validation ----
 function showError(message, inputs){
   error_message.innerText = message
   inputs.forEach(input => input.parentElement.classList.add('incorrect'))
 }
 
+// Returns an array of error messages, or an empty array if no errors
 function getSignupFormErrors(firstname, email, password, repeatPassword){
   let errors = []
 
