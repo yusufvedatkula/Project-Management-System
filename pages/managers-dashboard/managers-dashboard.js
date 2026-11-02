@@ -1,7 +1,7 @@
 // The team and their assigned tasks come from shared/sample-team.js,
 // the same data the Team tasks page uses. Personal to-do lists are never included.
 
-// More estimated hours than this (of unfinished work) = flagged as overloaded
+// More estimated hours of unfinished work than this = flagged as overloaded
 const OVERLOAD_HOURS = 20;
 
 // Today's date as "YYYY-MM-DD", the same format as task.deadline
