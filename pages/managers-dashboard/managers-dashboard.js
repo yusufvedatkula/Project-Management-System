@@ -34,6 +34,7 @@ function buildEmployees() {
 
 // Move a task to another team member, then redraw the whole dashboard
 function reassignTask(taskId, newOwner) {
+  // find the task in the shared list and change its owner
   const task = TEAM_TASKS.find(function (t) { return t.id === taskId; });
   task.owner = newOwner;
   renderDashboard();
@@ -81,6 +82,7 @@ function makeElement(tagName, className, text) {
     const select = makeElement("select", "reassign-select");
     select.setAttribute("aria-label", "Reassign " + task.title);
 
+    // add an option for each team member, with the current owner selected
     TEAM_MEMBERS.forEach(function (member) {
       const option = makeElement("option", "", member.name);
       option.value = member.name;
@@ -88,6 +90,7 @@ function makeElement(tagName, className, text) {
       select.appendChild(option);
     });
 
+    // when the manager chooses a new owner, reassign the task and redraw the dashboard
     select.addEventListener("change", function () {
       reassignTask(task.id, select.value);
     });
