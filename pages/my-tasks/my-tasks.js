@@ -1,5 +1,5 @@
-// The "notebook": our list of tasks.
-// No database yet, so the data lives here. In Part 2 it will come from the database.
+// initial task data
+
 let tasks = [
   { id: 1, title: 'Fix session timeout on client login page', project: 'Client portal v2', priority: 'High',   status: 'In progress', due: '2026-10-30' },
   { id: 2, title: 'Update printer drivers on 2nd-floor PCs',  project: 'Office IT refresh', priority: 'High',   status: 'In progress', due: '2026-11-06' },
@@ -20,18 +20,15 @@ const taskEstimates = {
 
 tasks.forEach(task => Object.assign(task, taskEstimates[task.id]));
 
-// page loads every task
 let currentFilter = 'All';
-// remember which priority is selected (page loads showing every priority)
 let currentPriority = 'All';
-// remember how the list is sorted (the page loads sorted by due date)
+// default sort is by due date
 let currentSort = 'due';
 
-// the order to use when sorting by priority or status
+// sort order for priority and status
 const priorityOrder = { High: 1, Medium: 2, Low: 3 };
 const statusOrder = { 'To do': 1, 'In progress': 2, 'Done': 3 };
 
-// Find the empty <ul> on the page, using its id
 const list = document.getElementById('task-list');
 const newTaskInput = document.getElementById('newTask_input');
 const addTaskBtn = document.getElementById('adding_task_btn');
@@ -41,9 +38,9 @@ const dueInput = document.getElementById('due_input');
 const complexitySelect = document.getElementById('complexity_select');
 const hoursInput = document.getElementById('hours_input');
 
-// Wipe the list, then rebuild it from the tasks array
+// render the filtered and sorted task list
 function render() {
-  list.innerHTML = '';   // wipe the whiteboard
+  list.innerHTML = ''; 
 
   let visibleTasks = tasks;
     if (currentFilter !== 'All') {
@@ -64,7 +61,7 @@ function render() {
     return a.due.localeCompare(b.due);   // default: earliest due date first
   });
 
-  // if nothing to show
+  // display a message when no tasks match
   if (visibleTasks.length === 0) {
     const message = tasks.length === 0
       ? 'No tasks yet. Add one above.'
@@ -75,11 +72,11 @@ function render() {
   }
 
   visibleTasks.forEach(task => {
-    const li = document.createElement('li');   // make a new <li>
+    const li = document.createElement('li');
 
     li.className = task.status === 'Done' ? 'is-done' : '';
 
-    const overdue = isOverdue(task);   // true or false, used for the due date label
+    const overdue = isOverdue(task); 
 
     li.innerHTML = `
       <input type="checkbox" class="task-check" ${task.status === 'Done' ? 'checked' : ''}>
@@ -98,7 +95,7 @@ function render() {
 
     li.querySelector('.task-check').addEventListener('change', () => toggleDone(task.id));
     li.querySelector('.delete_btn').addEventListener('click', () => deleteTask(task.id));
-    list.appendChild(li);   // put it on the page
+    list.appendChild(li); 
   });
   updateCounters();
 }
@@ -109,22 +106,22 @@ function complexityDots(n) {
   return '●'.repeat(n) + '○'.repeat(5 - n);
 }
 
-// Today's date as 'YYYY-MM-DD', the same format as task.due
+// return today's date in YYYY-MM-DD format
 function todayString() {
   return new Date().toISOString().slice(0, 10);
 }
 
-// A task is overdue if it isn't done AND its due date is before today
+// check whether a task is overdue
 function isOverdue(task) {
   return task.status !== 'Done' && task.due < todayString();
 }
 
-// Turn '2026-10-09' into '9 Oct' for display
+// format a due date for display
 function formatDate(iso) {
   return new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 }
 
-// Count the tasks and put the numbers on the page
+// update the task counters
 function updateCounters() {
   const open    = tasks.filter(t => t.status !== 'Done').length;
   const overdue = tasks.filter(isOverdue).length;
@@ -136,9 +133,9 @@ function updateCounters() {
 }
 
 
-// Flip a task between Done and To do, then redraw the page
+// toggle a task's completion status
 function toggleDone(id) {
-  const task = tasks.find(t => t.id === id);   // find the task that was clicked
+  const task = tasks.find(t => t.id === id); 
 
   if (task.status === 'Done') {
     task.status = 'To do';
@@ -146,16 +143,16 @@ function toggleDone(id) {
     task.status = 'Done';
   }
 
-  render();   // redraw so the list and counters update
+  render();
 }
 
-// removing a task by its id, then redraw the page
+// delete a task by its ID
 function deleteTask(id) {
   tasks = tasks.filter(t => t.id !== id);
   render();   // redraw so the list and counters update
 }
 
-// read the input box, build a new task, add it to the array, then redraw
+// create a task from the form inputs
 function addTask() {
   const title = newTaskInput.value;
   if (title === '') return; // nothing typed, so do nothing
@@ -171,7 +168,7 @@ function addTask() {
     complexity: Number(complexitySelect.value) // the picked date, or today if left empty
   });
 
-  newTaskInput.value = '';  // box should be cleared
+  newTaskInput.value = ''; 
   prioritySelect.value = 'Medium'; // put the dropdown back to the default
   projectSelect.value = 'Personal'; // reset the project too
   dueInput.value = todayString();
