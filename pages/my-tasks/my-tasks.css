@@ -14,9 +14,9 @@ body {
 
 /* Page layout: menu + content side by side  */
 .app {
-  display: flex;        /* put the children in a row */
-  flex-wrap: wrap;      /* allow them to wrap onto a new line if there's no room */
-  min-height: 100vh;    /* at least the full height of the screen */
+  display: flex;        
+  flex-wrap: wrap;      
+  min-height: 100vh;   
 }
 
 .sidebar {
@@ -24,7 +24,7 @@ body {
   background: var(--ink);
   padding: 24px 16px;
   display: flex;
-  flex-direction: column;   /* stack the menu items top to bottom */
+  flex-direction: column;  
   gap: 4px;
 }
 
@@ -37,12 +37,12 @@ body {
   color: white;
   font-weight: 700;
   font-size: 20px;
-  padding: 0 8px 24px;   /* same spacing as the logo on the other pages */
+  padding: 0 8px 24px; 
 }
 
 .sidebar a {
   color: #D6D3CC;
-  text-decoration: none;   /* remove the underline */
+  text-decoration: none;   
   padding: 12px;
   border-radius: 8px;
 }
@@ -59,7 +59,7 @@ body {
 }
 
 #task-list {
-  list-style: none;      /* remove the bullet points */
+  list-style: none;      
   padding: 0;
   background: white;
   border-radius: 12px;
@@ -67,7 +67,7 @@ body {
 
 #task-list li {
   display: flex;
-  align-items: center;     /* line everything up on the middle of the row */
+  align-items: center;     
   flex-wrap: wrap;         /* on a narrow screen, the pills drop below the title */
   gap: 16px;
   padding: 16px 20px;
@@ -88,7 +88,7 @@ body {
 .page-header {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;   /* title on the left, counters on the right */
+  justify-content: space-between;   
   align-items: flex-end;
   gap: 16px;
   margin-bottom: 24px;
@@ -106,9 +106,6 @@ body {
   text-decoration: line-through;
   color: #8A8F96;
 }
-
-/* ===== Added by alagu ===== */
-
 
 /* delete button: hidden until you hover over the row */
 .delete_btn {
@@ -230,7 +227,7 @@ body {
 }
 
 
-/* make the pills and dropdowns use the same font */
+
 .filter_btn,
 .adding_task button,
 #priority_filter,
@@ -240,7 +237,7 @@ body {
 }
 
 .task-main {
-  flex: 1 1 240px;        /* take the free space, wrap below 240px */
+  flex: 1 1 240px;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -270,7 +267,7 @@ body {
 .priority.medium { background: #FDF0D5; color: #8A5A00; }
 .priority.low    { background: #ECEAE5; color: #3F444A; }
 
-/* larger rounded checkbox */
+
 .task-check {
   appearance: none;
   -webkit-appearance: none;
@@ -392,7 +389,6 @@ body {
   color: #6B7178;
 }
 
-/* adjusting size of counters */
 .counter {
   min-width: 56px;
   font-size: 14px;
@@ -404,12 +400,11 @@ body {
   line-height: 1.1;
 }
 
-/* Hub logo */
+/* hub logo */
 .logo span {
   color: var(--amber);
 }
 
-/* page highlighter */
 .sidebar a.active {
   background: #3A4048;
   color: white;
