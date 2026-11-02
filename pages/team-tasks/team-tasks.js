@@ -1,5 +1,5 @@
-// start with the shared sample tasks (shared/sample-team.js), so this page shows
-// the same team and tasks as the Manager's dashboard
+// start with the shared sample tasks (shared/sample-team.js), 
+// so this page shows the same team and tasks as the Manager's dashboard
 let tasksList = TEAM_TASKS.map(function (task) {
     return {
         id: task.id,

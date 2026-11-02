@@ -13,9 +13,9 @@ const SESSION_KEY = 'demoSession'
 const COMPANY_DOMAIN = '@make-it-all.co.uk'
 
 // Every account has a role: 'employee' or 'manager'.
-// The role is stored with the account, never chosen by the user, so nobody can make
-// themselves a manager. Sign up always creates an employee. For this prototype the
-// manager account is pre-set; in Part 2 an admin will assign the manager role.
+// The role is stored with the account, never chosen by the user, 
+// so nobody can make themselves a manager. Sign up always creates an employee. 
+// For this prototype the manager account is pre-set; in Part 2 an admin will assign the manager role.
 const DEMO_USERS = [
   { firstname: 'Sam',  email: 'employee' + COMPANY_DOMAIN, password: 'Employee1', role: 'employee' },
   { firstname: 'Alex', email: 'manager'  + COMPANY_DOMAIN, password: 'Manager1',  role: 'manager' }

@@ -2,8 +2,8 @@
 // Team tasks and the Manager's dashboard both load this file, so they always show
 // the same people and the same tasks. In Part 2 this data will come from the database.
 //
-// These are tasks a manager has ASSIGNED (team/project tasks). Employees' personal
-// to-do lists (My tasks) are private and are never included here.
+// These are tasks a manager has assigned (team/project tasks). 
+// Employees' personal to-do lists (My tasks) are private and are never included here.
 
 const TEAM_MEMBERS = [
   { name: "Daniel Brooks", role: "Developer" },
@@ -11,9 +11,7 @@ const TEAM_MEMBERS = [
   { name: "Lewis Turner",  role: "Developer" }
 ];
 
-// status: "To do" | "In progress" | "Done"
-// priority: "low" | "medium" | "high"     complexity: "easy" | "medium" | "hard"
-// hours: estimated hours to complete       deadline: "YYYY-MM-DD"
+
 const TEAM_TASKS = [
   { id: 1,  title: "Build the project overview page",      owner: "Daniel Brooks", project: "Project Portal",  status: "In progress", priority: "high",   complexity: "hard",   hours: 8,  deadline: "2026-11-10" },
   { id: 2,  title: "Check the mobile layout",              owner: "Daniel Brooks", project: "Project Portal",  status: "To do",       priority: "medium", complexity: "easy",   hours: 3,  deadline: "2026-10-28" },
