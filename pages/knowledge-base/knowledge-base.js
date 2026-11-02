@@ -253,10 +253,12 @@ commentForm.addEventListener('submit', (e) => {
         return;
     }
 
+    const currentUserName = document.getElementById('sidebar-user-name')?.textContent.trim()
+
     const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     const newComment = {
-        username: "user1", 
+        username: currentUserName, 
         text: newCommentText,
         time: currentTime
     };
