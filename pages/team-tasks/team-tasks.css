@@ -114,7 +114,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    max-width: 800px;
+    max-width: none;
 }
 
 .card {
